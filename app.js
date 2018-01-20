@@ -18,7 +18,29 @@
     -- Base URL:  https://wind-bow.gomix.me/twitch-api
     -- routes (GET only):
                 - /users/:user
+                  - bio
+                  - logo
                 - /channels/:channel
+                  - followers
+                  - twitch url
                 - /streams/:stream
+                  - game name
+                  - stream preview img
+                  - (all channel info)
+
+
+  USERS
+
+    -- freecodecamp id: 79776140
+    -- syntag       id: 75552478
+    -- deadmau5     id: 71166086
+    -- monstercat   id: 27446517
+
+
+  LOGIC
+
+    -- check if user is streaming if result.stream === null from streams/username
+    -- if result.stream !== null, get stream name from result.game 
+
 
 */
