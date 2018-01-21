@@ -1,0 +1,23 @@
+:root {
+  --color-primary-1: #322951;
+  --color-primary-2: #8F74C5;
+  --color-primary-3: #d3cae8;
+  --color-dark-1: #1E1A26;
+  --color-dark-2: #17141D;
+  --color-white: #ffffff; }
+
+* {
+  margin: 0;
+  padding: 0; }
+
+html {
+  height: 100%;
+  box-sizing: border-box; }
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit; }
+
+body {
+  background-image: linear-gradient(to top right, var(--color-primary-1), var(--color-primary-2)); }
