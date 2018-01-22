@@ -12,12 +12,49 @@
 
 html {
   height: 100%;
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-size: 62.5%; }
 
 *,
 *:before,
 *:after {
-  box-sizing: inherit; }
+  box-sizing: inherit;
+  list-style: none; }
 
 body {
+  font-size: 2rem;
   background-image: linear-gradient(to top right, var(--color-primary-1), var(--color-primary-2)); }
+
+.app {
+  border: 1px dashed aquamarine;
+  max-width: 70rem;
+  margin: 4rem auto 0;
+  border-radius: 4px; }
+
+.header {
+  border: 1px solid;
+  background: var(--color-white);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap; }
+  .header .logo {
+    width: 30%;
+    height: 30%;
+    margin-right: auto; }
+
+.nav {
+  border: 1px solid red;
+  width: 40%;
+  align-self: stretch;
+  display: flex;
+  margin-right: 2rem; }
+  .nav__list {
+    width: 100%;
+    display: flex;
+    border: 1px solid grey; }
+  .nav__item {
+    flex: 1;
+    border: 1px solid green; }
+
+.search {
+  width: 80%; }
