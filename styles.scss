@@ -43,8 +43,7 @@ body {
 
 
 .app {
-  border: 1px dashed aquamarine;
-  max-width: 70rem;
+  max-width: 65rem;
   margin: 4rem auto 0;
   border-radius: 4px;
 }
@@ -58,8 +57,9 @@ body {
   flex-wrap: wrap;
 
   .logo {
-    width: 30%;
-    height: 30%;
+    margin: 1.3rem;
+    width: 25%;
+    height: 25%;
     margin-right: auto;
   }
 }
@@ -94,31 +94,46 @@ body {
 
 .search {
   width: 80%;
+  border: 1px solid;
+  width: 50%;
+  height: 3rem;
+  font-size: 2rem;
+  margin: 0 auto 1.3rem;
 }
 
 
 .content {
-
+  background: #eee;
+  height: 70rem; // for testing
 }
 
 
 .channel {
-
+  background: var(--color-dark-1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 9rem;
 
   &__info {
-
+    flex: 1;
+    color: #fff;
+    border: 1px solid red;
   }
 
   &__img {
-
+    border: 1px solid red;
   }
 
   &__name {
-
+    border: 1px solid red;
   }
 
   &__status {
-
+    border: 1px solid red;
+    color: white;
+    flex: 1;
+    text-align: center;
   }
 }
 
