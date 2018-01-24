@@ -44,3 +44,26 @@
 
 
 */
+
+(function App() {
+  const channels = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse'];
+  const [ container ] = document.getElementsByClassName('content');
+  const baseUrl = 'https://wind-bow.gomix.me/twitch-api/streams/deadmau5';
+  fetchChannels();
+  // fetch users
+  function fetchChannels() {
+    fetch(baseUrl, {
+      method: 'get',
+      mode: 'no-cors',
+    })
+      .then((data) => {
+        console.log(data);
+      });
+  }
+
+  // check if user is streaming
+
+  
+
+
+}());

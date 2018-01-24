@@ -82,14 +82,8 @@ body {
   height: 9rem; }
   .channel__info {
     flex: 1;
-    color: #fff;
-    border: 1px solid red; }
-  .channel__img {
-    border: 1px solid red; }
-  .channel__name {
-    border: 1px solid red; }
+    color: #fff; }
   .channel__status {
-    border: 1px solid red;
     color: white;
     flex: 1;
     text-align: center; }
