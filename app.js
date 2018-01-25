@@ -1,20 +1,5 @@
 /*
-  User stories:
-    
-    -- Show list of users who are currently streaming
-    -- Show list of users who are currently offline
-    -- Show list of all users
-
-    -- If user is streaming, display the stream title
-    -- Upon clicking a user who is currently streaming, it will direct to the stream
-    
-  *BONUS*
-
-    -- Live search field
-
-
   API 
-
     -- Base URL:  https://wind-bow.gomix.me/twitch-api
     -- routes (GET only):
                 - /users/:user
@@ -24,42 +9,47 @@
                   - followers
                   - twitch url
                 - /streams/:stream
+                  - stream (null if not streaming)
                   - game name
                   - stream preview img
                   - (all channel info)
-
-
-  USERS
-
-    -- freecodecamp id: 79776140
-    -- syntag       id: 75552478
-    -- deadmau5     id: 71166086
-    -- monstercat   id: 27446517
-
-
-  LOGIC
-
-    -- check if user is streaming if result.stream === null from streams/username
-    -- if result.stream !== null, get stream name from result.game 
-
-
 */
 
 (function App() {
   const channels = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse'];
   const [ container ] = document.getElementsByClassName('content');
-  const baseUrl = 'https://wind-bow.gomix.me/twitch-api/channels/deadmau5?callback=?';
-  fetchChannels();
-  // fetch users
-  function fetchChannels() {
-    $.getJSON(baseUrl, (data) => {
-      console.log(data);
-    })
+
+  channels.forEach((channel) => {
+    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${channel}?callback=?`;
+    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${channel}?callback=?`;
+    $.getJSON(streamUrl, (data) => {
+      if (data.stream) {
+        const channelObj = createChannelObj(data.stream.channel);
+        console.log(channelObj);
+      } else {
+        $.getJSON(channelUrl, (result) => {
+          const channelObj = createChannelObj(result);
+          console.log(channelObj);
+        });
+      }
+    });
+  });
+
+  function createChannelObj(input) {
+    return {
+      name: input.display_name,
+      logo: input.logo,
+      stream: input.game,
+      viewers: input.viewers,
+      url: input.url,
+    }
   }
 
-  // check if user is streaming
+  function render(channel) {
+    let channelContainer = document.createElement('div').classList.add('channel');
+    let channelInfo = document.createElement('div').classList.add('channel__info');
 
-  
 
-
+    container.appendChild(elm);
+  }
 }());
