@@ -48,17 +48,13 @@
 (function App() {
   const channels = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse'];
   const [ container ] = document.getElementsByClassName('content');
-  const baseUrl = 'https://wind-bow.gomix.me/twitch-api/streams/deadmau5';
+  const baseUrl = 'https://wind-bow.gomix.me/twitch-api/channels/deadmau5?callback=?';
   fetchChannels();
   // fetch users
   function fetchChannels() {
-    fetch(baseUrl, {
-      method: 'get',
-      mode: 'no-cors',
+    $.getJSON(baseUrl, (data) => {
+      console.log(data);
     })
-      .then((data) => {
-        console.log(data);
-      });
   }
 
   // check if user is streaming
