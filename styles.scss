@@ -207,7 +207,7 @@ body {
     position: relative;
     left: 1rem;
     bottom: 8px;
-    animation: pulsate 1.3s alternate infinite;
+    animation: pulsate 2s alternate infinite;
   }
   
   &--online {
@@ -237,9 +237,17 @@ body {
 @keyframes pulsate {
   0% {
     opacity: .5;
+    //box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    box-shadow: none;
   }
 
+  70% {
+    opacity: 1;
+    box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
+  }
+  
   100% {
     opacity: 1;
+    box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
   }
 }
