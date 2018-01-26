@@ -1,30 +1,36 @@
 (function App() {
-  const channels = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse'];
+  const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'dukenukem2020'];
   const [container] = document.getElementsByClassName('content');
+  const channelArr = [];
 
-  channels.forEach((channel) => {
-    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${channel}?callback=?`;
-    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${channel}?callback=?`;
-    $.getJSON(streamUrl, (data) => {
-      if (data.stream) {
-        const channelObj = createChannelObj(data.stream.channel);
-        render(channelObj);
+  channelNames.forEach((name) => {
+    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
+    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
+
+    $.getJSON(streamUrl, (streamData) => {
+      let channel;
+      if (streamData.stream) {
+        channel = createChannelObj(streamData.stream.channel, true);
+        channelArr.push(channel);
       } else {
-        $.getJSON(channelUrl, (result) => {
-          const channelObj = createChannelObj(result);
-          render(channelObj);
+        $.getJSON(channelUrl, (channelData) => {
+          channel = createChannelObj(channelData);
+          channelArr.push(channel);
         });
       }
     });
   });
 
-  function createChannelObj(input) {
+
+  /* *** HELPER FUNCTIONS *** */
+
+  function createChannelObj(data, isStreaming = false) {
     return {
-      name: input.display_name,
-      logo: input.logo,
-      stream: input.game,
-      viewers: input.viewers,
-      url: input.url,
+      name: data.display_name,
+      logo: data.logo,
+      stream: isStreaming ? data.game : false,
+      viewers: data.viewers,
+      url: data.url,
     };
   }
 
@@ -32,7 +38,7 @@
     const channelContainer = document.createElement('div');
     const channelInfo = document.createElement('div');
     const channelImg = document.createElement('img');
-    const channelName = document.createElement('span');
+    const channelName = document.createElement('a');
     const channelStatus = document.createElement('a');
 
     channelName.innerText = channel.name;
