@@ -1,5 +1,40 @@
 (function App() {
-  const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'dukenukem2020'];
+  const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'monstercat', 'dukenukem2020'];
+  const [nav] = Array.from(document.getElementsByClassName('nav'));
+
+  nav.addEventListener('click', (e) => {
+    const text = e.target.innerText;
+    const channels = Array.from(document.getElementsByClassName('channel'));
+
+    switch (text) {
+      case 'ALL':
+        channels.forEach((channel) => {
+          channel.classList.remove('hidden');
+        });
+        break;
+      case 'ONLINE':
+        channels.forEach((channel) => {
+          if (channel.classList.contains('channel--online')) {
+            channel.classList.remove('hidden');
+          } else {
+            channel.classList.add('hidden');
+          }
+        });
+        break;
+      case 'OFFLINE':
+        channels.forEach((channel) => {
+          if (channel.classList.contains('channel--online')) {
+            channel.classList.add('hidden');
+          } else {
+            channel.classList.remove('hidden');
+          }
+        });
+        break;
+      default:
+        break;
+    }
+  });
+
 
   channelNames.forEach((name) => {
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
@@ -17,6 +52,7 @@
         });
       }
     });
+
   });
 
   /* *** HELPER FUNCTIONS *** */
