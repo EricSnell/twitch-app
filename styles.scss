@@ -149,6 +149,21 @@ body {
     transition: all .3s;
   }
 
+  &--online &__name::after {
+    content: '';
+    display: inline-block;
+    width: .8rem;
+    height: .8rem;
+    background: #14AF5B;
+    position: relative;
+    left: 1.3rem;
+    bottom: 5px;
+  }
+
+  &--online {
+    border-bottom: 3px solid #14AF5B !important;
+  }
+
   &:hover &__name,
   &:hover &__status {
     color: #fff;

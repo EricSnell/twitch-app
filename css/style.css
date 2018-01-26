@@ -104,6 +104,17 @@ body {
     flex: 1;
     text-align: center;
     transition: all .3s; }
+  .channel--online .channel__name::after {
+    content: '';
+    display: inline-block;
+    width: .8rem;
+    height: .8rem;
+    background: #14AF5B;
+    position: relative;
+    left: 1.3rem;
+    bottom: 5px; }
+  .channel--online {
+    border-bottom: 3px solid #14AF5B !important; }
   .channel:hover .channel__name,
   .channel:hover .channel__status {
     color: #fff; }

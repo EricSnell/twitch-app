@@ -1,6 +1,5 @@
 (function App() {
   const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'dukenukem2020'];
-  const channelArr = [];
 
   channelNames.forEach((name) => {
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
@@ -10,12 +9,10 @@
       let channel;
       if (streamData.stream) {
         channel = new Channel(streamData.stream.channel, true);
-        channelArr.push(channel);
         render(channel);
       } else {
         $.getJSON(channelUrl, (channelData) => {
           channel = new Channel(channelData);
-          channelArr.push(channel);
           render(channel);
         });
       }
@@ -43,7 +40,7 @@
     channelStatus.innerText = obj.stream ? obj.stream : 'Offline';
     channel.href = obj.url;
 
-    channel.className = 'channel';
+    channel.className = obj.stream ? 'channel channel--online' : 'channel';
     channelInfo.className = 'channel__info';
     channelImg.className = 'channel__img';
     channelImg.src = obj.logo;
