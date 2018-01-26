@@ -76,6 +76,7 @@ body {
 
 .channel {
   background: var(--color-dark-1);
+  text-decoration: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -103,7 +104,8 @@ body {
     flex: 1;
     text-align: center;
     transition: all .3s; }
-  .channel__status:hover, .channel__name:hover {
+  .channel:hover .channel__name,
+  .channel:hover .channel__status {
     color: #fff; }
   .channel:hover {
     background-color: #2c2541; }

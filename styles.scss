@@ -110,6 +110,7 @@ body {
 
 .channel {
   background: var(--color-dark-1);
+  text-decoration: none;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -148,8 +149,8 @@ body {
     transition: all .3s;
   }
 
-  &__status:hover,
-  &__name:hover {
+  &:hover &__name,
+  &:hover &__status {
     color: #fff;
   }
 

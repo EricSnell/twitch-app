@@ -12,18 +12,18 @@
       if (streamData.stream) {
         channel = createChannelObj(streamData.stream.channel, true);
         channelArr.push(channel);
+        render(channel);
       } else {
         $.getJSON(channelUrl, (channelData) => {
           channel = createChannelObj(channelData);
           channelArr.push(channel);
+          render(channel);
         });
       }
     });
   });
 
-
   /* *** HELPER FUNCTIONS *** */
-
   function createChannelObj(data, isStreaming = false) {
     return {
       name: data.display_name,
@@ -35,15 +35,15 @@
   }
 
   function render(channel) {
-    const channelContainer = document.createElement('div');
+    const channelContainer = document.createElement('a');
     const channelInfo = document.createElement('div');
     const channelImg = document.createElement('img');
     const channelName = document.createElement('a');
     const channelStatus = document.createElement('a');
 
     channelName.innerText = channel.name;
-    channelStatus.innerText = (channel.stream === 'Creative') ? 'Offline' : channel.stream;
-    channelStatus.href = channel.url;
+    channelStatus.innerText = channel.stream ? channel.stream : 'Offline';
+    channelContainer.href = channel.url;
 
     channelContainer.className = 'channel';
     channelInfo.className = 'channel__info';
