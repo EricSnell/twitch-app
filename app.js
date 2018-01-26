@@ -1,6 +1,5 @@
 (function App() {
   const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'dukenukem2020'];
-  const [container] = document.getElementsByClassName('content');
   const channelArr = [];
 
   channelNames.forEach((name) => {
@@ -10,12 +9,12 @@
     $.getJSON(streamUrl, (streamData) => {
       let channel;
       if (streamData.stream) {
-        channel = createChannelObj(streamData.stream.channel, true);
+        channel = new Channel(streamData.stream.channel, true);
         channelArr.push(channel);
         render(channel);
       } else {
         $.getJSON(channelUrl, (channelData) => {
-          channel = createChannelObj(channelData);
+          channel = new Channel(channelData);
           channelArr.push(channel);
           render(channel);
         });
@@ -24,39 +23,38 @@
   });
 
   /* *** HELPER FUNCTIONS *** */
-  function createChannelObj(data, isStreaming = false) {
-    return {
-      name: data.display_name,
-      logo: data.logo,
-      stream: isStreaming ? data.game : false,
-      viewers: data.viewers,
-      url: data.url,
-    };
+  function Channel(data, isStreaming = false) {
+    this.name = data.display_name;
+    this.logo = data.logo;
+    this.stream = isStreaming ? data.game : false;
+    this.viewers = data.viewers;
+    this.url = data.url;
   }
 
-  function render(channel) {
-    const channelContainer = document.createElement('a');
+  function render(obj) {
+    const [container] = document.getElementsByClassName('content');
+    const channel = document.createElement('a');
     const channelInfo = document.createElement('div');
     const channelImg = document.createElement('img');
     const channelName = document.createElement('a');
     const channelStatus = document.createElement('a');
 
-    channelName.innerText = channel.name;
-    channelStatus.innerText = channel.stream ? channel.stream : 'Offline';
-    channelContainer.href = channel.url;
+    channelName.innerText = obj.name;
+    channelStatus.innerText = obj.stream ? obj.stream : 'Offline';
+    channel.href = obj.url;
 
-    channelContainer.className = 'channel';
+    channel.className = 'channel';
     channelInfo.className = 'channel__info';
     channelImg.className = 'channel__img';
-    channelImg.src = channel.logo;
+    channelImg.src = obj.logo;
     channelName.className = 'channel__name';
     channelStatus.className = 'channel__status';
 
     channelInfo.appendChild(channelImg);
     channelInfo.appendChild(channelName);
-    channelContainer.appendChild(channelInfo);
-    channelContainer.appendChild(channelStatus);
+    channel.appendChild(channelInfo);
+    channel.appendChild(channelStatus);
 
-    container.appendChild(channelContainer);
+    container.appendChild(channel);
   }
 }());
