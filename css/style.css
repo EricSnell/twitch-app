@@ -42,16 +42,28 @@ body {
   display: flex;
   align-items: center;
   flex-wrap: wrap; }
+  @media only screen and (max-width: 500px) {
+    .header {
+      flex-direction: column;
+      justify-content: center; } }
   .header .logo {
     margin: 1.3rem;
     width: 25%;
     height: 25%;
     margin-right: auto; }
+    @media only screen and (max-width: 500px) {
+      .header .logo {
+        margin: 2rem 0;
+        width: 45%;
+        height: 45%; } }
 
 .nav {
-  width: 40%;
+  flex: 0 0 40%;
   align-self: stretch;
   display: flex; }
+  @media only screen and (max-width: 500px) {
+    .nav {
+      flex: 1; } }
   .nav__list {
     width: 100%;
     display: flex; }
@@ -64,6 +76,9 @@ body {
     font-size: 1.3rem;
     transition: all .3s;
     text-transform: uppercase; }
+    @media only screen and (max-width: 500px) {
+      .nav__item {
+        height: 5rem; } }
   .nav__item:hover, .nav__item--active {
     background: var(--color-primary-3); }
 

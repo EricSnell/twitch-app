@@ -63,19 +63,34 @@ body {
   align-items: center;
   flex-wrap: wrap;
 
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+    justify-content: center;
+  }
+
   .logo {
     margin: 1.3rem;
     width: 25%;
     height: 25%;
     margin-right: auto;
+
+    @media only screen and (max-width: 500px) {
+      margin: 2rem 0;
+      width: 45%;
+      height: 45%;
+    }
   }
 }
 
 
 .nav {
-  width: 40%;
+  flex: 0 0 40%;
   align-self: stretch;
   display: flex;
+
+  @media only screen and (max-width: 500px) {
+    flex: 1;
+  }
   
   &__list {
     width: 100%;
@@ -91,6 +106,10 @@ body {
     font-size: 1.3rem;
     transition: all .3s;
     text-transform: uppercase;
+
+    @media only screen and (max-width: 500px) {
+      height: 5rem;
+    }
   }
 
   &__item:hover,
