@@ -6,9 +6,11 @@
     const text = e.target.innerText;
     const channels = Array.from(document.getElementsByClassName('channel'));
     const navItems = Array.from(nav.getElementsByClassName('nav__item'));
+
     navItems.forEach((item) => {
       item.classList.remove('nav__item--active');
     });
+
     e.target.classList.add('nav__item--active');
 
     switch (text) {

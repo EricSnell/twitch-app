@@ -48,6 +48,11 @@ body {
   border-radius: 5px;
   box-shadow: 0 3rem 8rem rgba(0, 0, 0, .4);
  // overflow: hidden;
+
+  @media only screen and (max-width: 660px) {
+    margin: 0;
+    max-width: 100%;
+  }
 }
 
 
@@ -125,18 +130,32 @@ body {
   border-bottom: 2px solid #898395;
   backface-visibility: hidden; // fix animation glitch
 
+  @media only screen and (max-width: 500px) {
+    flex-direction: column;
+    padding: 2rem;
+    height: auto;
+  }
+
   
   &__info {
     flex: 1;
     color: #fff;
     display: flex;
     align-items: center;
+
+    @media only screen and (max-width: 500px) {
+      flex-direction: column;
+    }
   }
   
   &__img {
     width: 7rem;
     height: 7rem;
     margin: 0 1rem;
+
+    @media only screen and (max-width: 500px) {
+      margin-bottom: 2rem;
+    }
   }
   
   &__name {
@@ -178,6 +197,10 @@ body {
     background-color: #2c2541;
     transform: scale(1.02);
     z-index: 1;
+
+    @media only screen and (max-width: 500px) {
+      transform: scale(1);
+    }
   }
 }
 
