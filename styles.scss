@@ -132,7 +132,7 @@ body {
 
   @media only screen and (max-width: 500px) {
     flex-direction: column;
-    padding: 2rem;
+    padding: 2.5rem;
     height: auto;
   }
 
@@ -154,7 +154,9 @@ body {
     margin: 0 1rem;
 
     @media only screen and (max-width: 500px) {
-      margin-bottom: 2rem;
+      width: 10rem;
+      height: 10rem;
+      margin-bottom: 1.3rem;
     }
   }
   
@@ -162,6 +164,10 @@ body {
     color: #b8b5c0;
     font-weight: 300;
     transition: all .3s;
+
+    @media only screen and (max-width: 500px) {
+      margin-bottom: .5rem;
+    }
   }
   
   &__status {
