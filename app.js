@@ -17,7 +17,7 @@
 
 (function App() {
   const channels = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse'];
-  const [ container ] = document.getElementsByClassName('content');
+  const [container] = document.getElementsByClassName('content');
 
   channels.forEach((channel) => {
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${channel}?callback=?`;
@@ -25,12 +25,10 @@
     $.getJSON(streamUrl, (data) => {
       if (data.stream) {
         const channelObj = createChannelObj(data.stream.channel);
-        console.log(channelObj);
         render(channelObj);
       } else {
         $.getJSON(channelUrl, (result) => {
           const channelObj = createChannelObj(result);
-          console.log(channelObj);
           render(channelObj);
         });
       }
@@ -44,7 +42,7 @@
       stream: input.game,
       viewers: input.viewers,
       url: input.url,
-    }
+    };
   }
 
   function render(channel) {
@@ -52,10 +50,11 @@
     const channelInfo = document.createElement('div');
     const channelImg = document.createElement('img');
     const channelName = document.createElement('span');
-    const channelStatus = document.createElement('span');
+    const channelStatus = document.createElement('a');
 
     channelName.innerText = channel.name;
     channelStatus.innerText = (channel.stream === 'Creative') ? 'Offline' : channel.stream;
+    channelStatus.href = channel.url;
 
     channelContainer.className = 'channel';
     channelInfo.className = 'channel__info';

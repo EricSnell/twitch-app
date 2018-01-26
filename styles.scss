@@ -110,21 +110,22 @@ body {
 
 .channel {
   background: var(--color-dark-1);
-  border: 1px solid red;
+  border-bottom: 1px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  //height: 9rem;
 
   &__info {
     flex: 1;
     color: #fff;
-
+    display: flex;
+    align-items: center;
   }
 
   &__img {
     width: 9rem;
     height: 9rem;
+    margin-right: 1rem;
   }
 
   &__name {
@@ -132,10 +133,11 @@ body {
   }
 
   &__status {
-
+    text-decoration: none;
     color: white;
     flex: 1;
     text-align: center;
+    cursor: pointer;
   }
 }
 
