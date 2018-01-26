@@ -152,16 +152,17 @@ body {
   &--online &__name::after {
     content: '';
     display: inline-block;
-    width: .8rem;
-    height: .8rem;
+    width: .7rem;
+    height: .7rem;
+    border-radius: 100%;
     background: #14AF5B;
     position: relative;
-    left: 1.3rem;
-    bottom: 5px;
+    left: 1rem;
+    bottom: 8px;
   }
 
   &--online {
-    border-bottom: 3px solid #14AF5B !important;
+    border-bottom: 3px solid#14AF5B !important;
   }
 
   &:hover &__name,
