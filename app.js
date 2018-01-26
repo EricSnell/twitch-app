@@ -3,7 +3,7 @@
   const [nav] = Array.from(document.getElementsByClassName('nav'));
 
   nav.addEventListener('click', (e) => {
-    const text = e.target.innerText;
+    const filter = e.target.innerText;
     const channels = Array.from(document.getElementsByClassName('channel'));
     const navItems = Array.from(nav.getElementsByClassName('nav__item'));
 
@@ -13,32 +13,26 @@
 
     e.target.classList.add('nav__item--active');
 
-    switch (text) {
-      case 'ALL':
-        channels.forEach((channel) => {
+    if (filter === 'ALL') {
+      channels.forEach((channel) => {
+        channel.classList.remove('hidden');
+      });
+    } else if (filter === 'ONLINE') {
+      channels.forEach((channel) => {
+        if (channel.classList.contains('channel--online')) {
           channel.classList.remove('hidden');
-        });
-        break;
-      case 'ONLINE':
-        channels.forEach((channel) => {
-          if (channel.classList.contains('channel--online')) {
-            channel.classList.remove('hidden');
-          } else {
-            channel.classList.add('hidden');
-          }
-        });
-        break;
-      case 'OFFLINE':
-        channels.forEach((channel) => {
-          if (channel.classList.contains('channel--online')) {
-            channel.classList.add('hidden');
-          } else {
-            channel.classList.remove('hidden');
-          }
-        });
-        break;
-      default:
-        break;
+        } else {
+          channel.classList.add('hidden');
+        }
+      });
+    } else {
+      channels.forEach((channel) => {
+        if (channel.classList.contains('channel--online')) {
+          channel.classList.add('hidden');
+        } else {
+          channel.classList.remove('hidden');
+        }
+      });
     }
   });
 
