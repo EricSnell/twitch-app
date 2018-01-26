@@ -60,7 +60,7 @@ body {
     font-size: 1.3rem;
     transition: all .3s;
     text-transform: uppercase; }
-  .nav__item:hover {
+  .nav__item:hover, .nav__item--active {
     background: var(--color-primary-3); }
 
 .search {
