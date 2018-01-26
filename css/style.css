@@ -79,27 +79,31 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  cursor: pointer; }
+  cursor: pointer;
+  height: 9.5rem; }
   .channel:not(:last-child) {
-    border-bottom: 1px solid #898395; }
+    border-bottom: 2px solid #898395; }
   .channel__info {
     flex: 1;
     color: #fff;
     display: flex;
     align-items: center; }
   .channel__img {
-    width: 9rem;
-    height: 9rem;
-    margin-right: 1rem; }
+    width: 7rem;
+    height: 7rem;
+    margin: 0 1rem; }
   .channel__name {
-    color: #7E788A;
+    color: #b8b5c0;
+    font-weight: 300;
     transition: all .3s; }
   .channel__status {
     text-decoration: none;
-    color: #7E788A;
+    color: #898395;
     flex: 1;
     text-align: center;
     transition: all .3s; }
+  .channel:hover {
+    background-color: #2c2541; }
   .channel:hover .channel__name,
   .channel:hover .channel__status {
     color: #fff; }
