@@ -76,13 +76,16 @@ body {
 
 .channel {
   background: var(--color-dark-1);
+  border: 1px solid red;
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  height: 9rem; }
+  align-items: center; }
   .channel__info {
     flex: 1;
     color: #fff; }
+  .channel__img {
+    width: 9rem;
+    height: 9rem; }
   .channel__status {
     color: white;
     flex: 1;

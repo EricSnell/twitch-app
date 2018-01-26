@@ -110,10 +110,11 @@ body {
 
 .channel {
   background: var(--color-dark-1);
+  border: 1px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 9rem;
+  //height: 9rem;
 
   &__info {
     flex: 1;
@@ -122,7 +123,8 @@ body {
   }
 
   &__img {
-
+    width: 9rem;
+    height: 9rem;
   }
 
   &__name {
