@@ -29,7 +29,8 @@ body {
 .app {
   max-width: 65rem;
   margin: 4rem auto 0;
-  border-radius: 4px; }
+  border-radius: 5px;
+  overflow: hidden; }
 
 .header {
   border: 1px solid;
@@ -71,15 +72,15 @@ body {
   margin: 0 auto 1.3rem; }
 
 .content {
-  background: #eee;
-  height: 70rem; }
+  background: #eee; }
 
 .channel {
   background: var(--color-dark-1);
-  border-bottom: 1px solid red;
   display: flex;
   justify-content: space-between;
   align-items: center; }
+  .channel:not(:last-child) {
+    border-bottom: 1px solid var(--color-primary-2); }
   .channel__info {
     flex: 1;
     color: #fff;
