@@ -2,6 +2,8 @@
   const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'monstercat', 'dukenukem2020'];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
 
+  getData();
+
   nav.addEventListener('click', (e) => {
     const filter = e.target.innerText;
     const channels = Array.from(document.getElementsByClassName('channel'));
@@ -37,25 +39,30 @@
   });
 
 
-  channelNames.forEach((name) => {
-    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
-    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
-
-    $.getJSON(streamUrl, (streamData) => {
-      let channel;
-      if (streamData.stream) {
-        channel = new Channel(streamData.stream.channel, true);
-        render(channel);
-      } else {
-        $.getJSON(channelUrl, (channelData) => {
-          channel = new Channel(channelData);
-          render(channel);
-        });
-      }
-    });
-  });
-
   /* *** HELPER FUNCTIONS *** */
+
+  // Fetch data
+  function getData() {
+    channelNames.forEach((name) => {
+      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
+      const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
+
+      $.getJSON(streamUrl, (streamData) => {
+        let channel;
+        if (streamData.stream) {
+          channel = new Channel(streamData.stream.channel, true);
+          render(channel);
+        } else {
+          $.getJSON(channelUrl, (channelData) => {
+            channel = new Channel(channelData);
+            render(channel);
+          });
+        }
+      });
+    });
+  }
+
+  // Creates channel object
   function Channel(data, isStreaming = false) {
     this.name = data.display_name;
     this.logo = data.logo;
@@ -64,6 +71,7 @@
     this.url = data.url;
   }
 
+  // Renders individual channel component
   function render(obj) {
     const [container] = document.getElementsByClassName('content');
     const channel = document.createElement('a');
