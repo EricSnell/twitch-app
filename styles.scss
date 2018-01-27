@@ -4,9 +4,12 @@
   --color-primary-1: #322951;
   --color-primary-2: #8F74C5;
   --color-primary-3: #d3cae8;
+  --color-primary-4: #bca9e8;
+
+  --color-green: #14AF5B;
 
   --color-dark-1: #1E1A26;
-  --color-dark-2: #17141D;
+  --color-dark-2: #2c2541;
 
   --color-white: #ffffff;
 }
@@ -47,9 +50,8 @@ body {
   margin: 4rem auto 0;
   border-radius: 5px;
   box-shadow: 0 3rem 8rem rgba(0, 0, 0, .4);
- // overflow: hidden;
 
-  @media only screen and (max-width: 660px) {
+  @media only screen and (max-width: 730px) {
     margin: 0;
     max-width: 100%;
   }
@@ -57,7 +59,6 @@ body {
 
 
 .header {
-  border: 1px solid;
   background: var(--color-white);
   display: flex;
   align-items: center;
@@ -112,9 +113,12 @@ body {
     }
   }
 
-  &__item:hover,
-  &__item--active {
+  &__item:hover {
     background: var(--color-primary-3);
+  }
+
+  &__item--active {
+    background: var(--color-primary-4);
   }
 }
 
@@ -203,7 +207,7 @@ body {
     width: .7rem;
     height: .7rem;
     border-radius: 100%;
-    background: #14AF5B;
+    background: var(--color-green);
     position: relative;
     left: 1rem;
     bottom: 8px;
@@ -211,16 +215,16 @@ body {
   }
   
   &--online {
-    border-bottom: 2px solid#14AF5B !important;
+    border-bottom: 2px solid var(--color-green) !important;
   }
 
   &:hover &__name,
   &:hover &__status {
-    color: #fff;
+    color: var(--color-white);
   }
 
   &:hover {
-    background-color: #2c2541;
+    background-color: var(--color-dark-2);
     transform: scale(1.02);
     z-index: 1;
 
@@ -230,14 +234,15 @@ body {
   }
 }
 
+
 .hidden {
   display: none;
 }
 
+
 @keyframes pulsate {
   0% {
     opacity: .3;
-    //box-shadow: 0 0 0 rgba(0, 0, 0, 0);
     box-shadow: none;
   }
 
