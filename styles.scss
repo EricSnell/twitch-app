@@ -148,11 +148,12 @@ body {
   justify-content: space-between;
   align-items: center;
   cursor: pointer;
-  height: 9.5rem;
+  min-height: 9.5rem;
   transform: scale(1);
   transition: all .3s;
   border-bottom: 2px solid #898395;
   backface-visibility: hidden; // fix animation glitch
+  padding: 2rem 1rem;
 
   @media only screen and (max-width: 500px) {
     flex-direction: column;
@@ -162,7 +163,7 @@ body {
 
   
   &__info {
-    flex: 1;
+    flex: 0 0 60%;
     color: #fff;
     display: flex;
     align-items: center;
@@ -200,6 +201,11 @@ body {
     flex: 1;
     text-align: center;
     transition: all .3s;
+  }
+
+  &__sub-status {
+    font-size: 1.3rem;
+    margin-top: 5px;
   }
 
   &--online &__name::after {

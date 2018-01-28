@@ -48,6 +48,7 @@
       const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
 
       $.getJSON(streamUrl, (streamData) => {
+        console.log(streamData);
         let channel;
         if (streamData.stream) {
           channel = new Channel(streamData.stream.channel, true);
@@ -67,6 +68,7 @@
     this.name = data.display_name;
     this.logo = data.logo;
     this.stream = isStreaming ? data.game : false;
+    this.substatus = isStreaming ? data.status : '';
     this.viewers = data.viewers;
     this.url = data.url;
   }
@@ -79,10 +81,12 @@
     const channelImg = document.createElement('img');
     const channelName = document.createElement('a');
     const channelStatus = document.createElement('a');
+    const channelSubStatus = document.createElement('div');
 
     channelName.innerText = obj.name;
     channelStatus.innerText = obj.stream ? obj.stream : 'Offline';
     channel.href = obj.url;
+    channelSubStatus.innerText = obj.substatus;
 
     channel.className = obj.stream ? 'channel channel--online' : 'channel';
     channelInfo.className = 'channel__info';
@@ -90,10 +94,12 @@
     channelImg.src = obj.logo;
     channelName.className = 'channel__name';
     channelStatus.className = 'channel__status';
+    channelSubStatus.className = 'channel__sub-status';
 
     channelInfo.appendChild(channelImg);
     channelInfo.appendChild(channelName);
     channel.appendChild(channelInfo);
+    channelStatus.appendChild(channelSubStatus);
     channel.appendChild(channelStatus);
 
     container.appendChild(channel);
