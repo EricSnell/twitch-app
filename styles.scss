@@ -242,10 +242,11 @@ body {
   font-size: 1.6rem;
   letter-spacing: 2px;
   margin-bottom: 6rem;
-
+  
   &__link {
     color: inherit;
     text-decoration: none;
+    transition: all .3s;
 
     &:hover {
       color: var(--color-primary-4);
