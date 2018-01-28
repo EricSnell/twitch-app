@@ -1,8 +1,39 @@
 (function App() {
   const channelNames = ['deadmau5', 'syntag', 'relaxbeats', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
+  const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   getData();
+
+
+  searchInput.addEventListener('keydown', (e) => {
+    const input = e.target.value + e.key;
+    console.log(input);
+    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${input}?callback=?`;
+    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+
+    $.getJSON(streamUrl, (streamData) => {
+      let channel;
+      if (streamData.stream) {
+        console.log('stream>>>', streamData);
+        channel = new Channel(streamData.stream.channel, true);
+        render(channel);
+      } else {
+        $.getJSON(channelUrl, (channelData) => {
+          console.log('channel>>>', channelData);
+          if (!channelData.error) {
+            channel = new Channel(channelData);
+            render(channel);
+          }
+        });
+      }
+    });
+
+  });
+
+
+
+
 
   nav.addEventListener('click', (e) => {
     const filter = e.target.innerText;
