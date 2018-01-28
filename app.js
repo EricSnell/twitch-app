@@ -1,5 +1,5 @@
 (function App() {
-  const channelNames = ['deadmau5', 'syntag', 'freecodecamp', 'streamerhouse', 'monstercat', 'dukenukem2020'];
+  const channelNames = ['deadmau5', 'syntag', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
 
   getData();
