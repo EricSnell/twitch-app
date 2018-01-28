@@ -1,5 +1,5 @@
 (function App() {
-  const channelNames = ['deadmau5', 'syntag', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
+  const channelNames = ['deadmau5', 'syntag', 'relaxbeats', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
 
   getData();
@@ -48,7 +48,6 @@
       const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
 
       $.getJSON(streamUrl, (streamData) => {
-        console.log(streamData);
         let channel;
         if (streamData.stream) {
           channel = new Channel(streamData.stream.channel, true);
