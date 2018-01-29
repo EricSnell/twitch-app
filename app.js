@@ -6,33 +6,32 @@
   getData();
 
 
-  searchInput.addEventListener('keydown', (e) => {
-    const input = e.target.value + e.key;
-    console.log(input);
+  searchInput.addEventListener('keyup', (e) => {
+    const input = e.target.value;
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${input}?callback=?`;
     const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
 
-    $.getJSON(streamUrl, (streamData) => {
-      let channel;
-      if (streamData.stream) {
-        console.log('stream>>>', streamData);
-        channel = new Channel(streamData.stream.channel, true);
-        render(channel);
-      } else {
-        $.getJSON(channelUrl, (channelData) => {
-          console.log('channel>>>', channelData);
-          if (!channelData.error) {
-            channel = new Channel(channelData);
-            render(channel);
-          }
-        });
-      }
-    });
+    clearChannels();
 
+    if (input) {
+      $.getJSON(streamUrl, (streamData) => {
+        let channel;
+        if (streamData.stream) {
+          clearChannels();
+          channel = new Channel(streamData.stream.channel, true);
+          render(channel);
+        } else {
+          $.getJSON(channelUrl, (channelData) => {
+            if (!channelData.error) {
+              clearChannels();
+              channel = new Channel(channelData);
+              render(channel);
+            }
+          });
+        }
+      });
+    }
   });
-
-
-
 
 
   nav.addEventListener('click', (e) => {
@@ -133,5 +132,11 @@
     channel.appendChild(channelStatus);
 
     container.appendChild(channel);
+  }
+
+  // Clears all channel components
+  function clearChannels() {
+    const [content] = Array.from(document.getElementsByClassName('content'));
+    content.innerHTML = '';
   }
 }());
