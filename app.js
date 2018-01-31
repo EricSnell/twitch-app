@@ -3,7 +3,7 @@
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
-  getData();
+  runApp();
 
 
   searchInput.addEventListener('keyup', (e) => {
@@ -72,7 +72,7 @@
   /* *** HELPER FUNCTIONS *** */
 
   // Fetch data
-  function getData() {
+  function runApp() {
     channelNames.forEach((name) => {
       const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
       const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
