@@ -3,9 +3,9 @@
   const channelArr = [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
-
+  
   runApp();
-
+  
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value;
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${input}?callback=?`;
@@ -18,12 +18,14 @@
           emptyElement('.results');
           channel = new Channel(streamData.stream.channel, true);
           renderResults(channel);
+          addBtnListener(channel);
         } else {
           $.getJSON(channelUrl, (channelData) => {
             if (!channelData.error) {
               emptyElement('.results');
               channel = new Channel(channelData);
               renderResults(channel);
+              addBtnListener(channel);
             } else {
               emptyElement('.results');
             }
@@ -32,6 +34,28 @@
       });
     }
   });
+
+
+  function addBtnListener(result) {
+    const btn = document.querySelector('.btn--add');
+    btn.addEventListener('click', (e) => {
+      console.log(result);
+      channelArr.push(result);
+      hideResults();
+      renderAll();
+    });
+  }
+
+  function hideResults() {
+    document.querySelector('.results').innerHTML = '';
+  }
+
+  function renderAll() {
+    emptyElement('.content');
+    channelArr.forEach((channel) => {
+      render(channel);
+    });
+  }
 
   function renderResults(data) {
     const [results] = Array.from(document.getElementsByClassName('results'));
