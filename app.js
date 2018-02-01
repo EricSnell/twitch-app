@@ -1,10 +1,11 @@
 (function App() {
   const channelNames = ['deadmau5', 'syntag', 'relaxbeats', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
+  const channelArr = [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   runApp();
-
+  console.log(channelArr);
 
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value;
@@ -81,10 +82,12 @@
         let channel;
         if (streamData.stream) {
           channel = new Channel(streamData.stream.channel, true);
+          channelArr.push(channel);
           render(channel);
         } else {
           $.getJSON(channelUrl, (channelData) => {
             channel = new Channel(channelData);
+            channelArr.push(channel);
             render(channel);
           });
         }
