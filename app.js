@@ -34,21 +34,24 @@
   });
 
   function renderResults(data) {
-    console.log(data);
     const [results] = Array.from(document.getElementsByClassName('results'));
     const channel = document.createElement('div');
     const logo = document.createElement('img');
     const name = document.createElement('span');
+    const addBtn = document.createElement('button');
 
     channel.className = 'results__item';
     logo.className = 'results__img';
     name.className = 'results__name';
+    addBtn.className = 'btn--add';
 
     name.innerText = data.name;
     logo.src = data.logo;
+    addBtn.innerText = 'Add';
 
     channel.appendChild(logo);
     channel.appendChild(name);
+    channel.appendChild(addBtn);
     results.appendChild(channel);
   }
 
