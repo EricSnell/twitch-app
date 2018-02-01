@@ -1,5 +1,5 @@
 (function App() {
-//  localStorage.removeItem('subscriptions');
+  //localStorage.removeItem('subscriptions');
   const storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
@@ -7,11 +7,14 @@
 
   refresh();
   
-  searchInput.addEventListener('keyup', (e) => {
+  searchInput.addEventListener('keyup', showResults);
+  
+  function showResults(e) {
     const input = e.target.value;
     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
     $.getJSON(url, (data) => {
-      if (!data.error) {
+      const result = !data.error;
+      if (result) {
         const channel = new Channel(data);
         emptyElement('.results');
         renderResults(channel);
@@ -20,39 +23,42 @@
         emptyElement('.results');
       }
     });
-  });
-
+  }
 
   function alreadySubscribed(channel) {
     return subscriptions.find(obj => obj.name === channel.name);
   }
 
-
   function addBtnListener(result) {
     const btn = document.querySelector('.btn--add');
     btn.addEventListener('click', () => {
       subscribe(result);
-      hideResults();
-      refresh();
+      emptyElement('.results');
+      // hideResults();
       // renderSubscriptions();
+      refresh();
     });
   }
 
   function subscribe(channel) {
+    console.log('subs before:', subscriptions);
     subscriptions.push(channel);
+    console.log('subs after:', subscriptions);
+    console.log('local before:', localStorage['subscriptions']);
     localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    console.log('local after:', localStorage['subscriptions']);
   }
 
-  function hideResults() {
-    document.querySelector('.results').innerHTML = '';
-  }
+  // function hideResults() {
+  //   document.querySelector('.results').innerHTML = '';
+  // }
 
-  function renderSubscriptions() {
-    emptyElement('.content');
-    subscriptions.forEach((channel) => {
-      render(channel);
-    });
-  }
+  // function renderSubscriptions() {
+  //   emptyElement('.content');
+  //   subscriptions.forEach((channel) => {
+  //     render(channel);
+  //   });
+  // }
 
   function renderResults(data) {
     const [results] = Array.from(document.getElementsByClassName('results'));
@@ -116,6 +122,7 @@
 
   // Fetch data
   function refresh() {
+    emptyElement('.content');
     if (subscriptions.length) {
       subscriptions.forEach((obj) => {
         const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${obj.name}?callback=?`;
