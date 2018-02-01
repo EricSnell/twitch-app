@@ -8,41 +8,31 @@
   
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value;
-    const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${input}?callback=?`;
-    const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-
-    if (input) {
-      $.getJSON(streamUrl, (streamData) => {
-        let channel;
-        if (streamData.stream) {
-          emptyElement('.results');
-          channel = new Channel(streamData.stream.channel, true);
-          renderResults(channel);
-          addBtnListener(channel);
-        } else {
-          $.getJSON(channelUrl, (channelData) => {
-            if (!channelData.error) {
-              emptyElement('.results');
-              channel = new Channel(channelData);
-              renderResults(channel);
-              addBtnListener(channel);
-            } else {
-              emptyElement('.results');
-            }
-          });
-        }
-      });
-    }
+    const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+    $.getJSON(url, (result) => {
+      if (!result.error) {
+        const channel = new Channel(result);
+        emptyElement('.results');
+        renderResults(channel);
+        if (!alreadySubscribed(channel)) addBtnListener(channel);
+      } else {
+        emptyElement('.results');
+      }
+    });
   });
+
+
+  function alreadySubscribed(channel) {
+    return channelArr.find(obj => obj.name === channel.name);
+  }
 
 
   function addBtnListener(result) {
     const btn = document.querySelector('.btn--add');
-    btn.addEventListener('click', (e) => {
-      console.log(result);
+    btn.addEventListener('click', () => {
       channelArr.push(result);
       hideResults();
-      renderAll();
+      renderSubscriptions();
     });
   }
 
@@ -50,7 +40,7 @@
     document.querySelector('.results').innerHTML = '';
   }
 
-  function renderAll() {
+  function renderSubscriptions() {
     emptyElement('.content');
     channelArr.forEach((channel) => {
       render(channel);
