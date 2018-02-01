@@ -164,6 +164,37 @@ body {
   }
 }
 
+
+.results {
+  position: absolute;
+  background: yellow;
+  border: 1px solid;
+  width: 100%;
+  z-index: 100;
+  
+  &__item {
+    background: var(--color-white);
+    display: flex;
+    align-items: center;
+    padding: 8px;
+  }
+
+  &__img {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 5px;
+  }
+
+  &__name {
+
+  }
+
+  .btn--add {
+
+  }
+}
+
+
 .content {
   background: #eee;
 }

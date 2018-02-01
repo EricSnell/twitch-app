@@ -5,34 +5,52 @@
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   runApp();
-  console.log(channelArr);
 
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value;
     const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${input}?callback=?`;
     const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
 
-    clearChannels();
-
     if (input) {
       $.getJSON(streamUrl, (streamData) => {
         let channel;
         if (streamData.stream) {
-          clearChannels();
+          emptyElement('.results');
           channel = new Channel(streamData.stream.channel, true);
-          render(channel);
+          renderResults(channel);
         } else {
           $.getJSON(channelUrl, (channelData) => {
             if (!channelData.error) {
-              clearChannels();
+              emptyElement('.results');
               channel = new Channel(channelData);
-              render(channel);
+              renderResults(channel);
+            } else {
+              emptyElement('.results');
             }
           });
         }
       });
     }
   });
+
+  function renderResults(data) {
+    console.log(data);
+    const [results] = Array.from(document.getElementsByClassName('results'));
+    const channel = document.createElement('div');
+    const logo = document.createElement('img');
+    const name = document.createElement('span');
+
+    channel.className = 'results__item';
+    logo.className = 'results__img';
+    name.className = 'results__name';
+
+    name.innerText = data.name;
+    logo.src = data.logo;
+
+    channel.appendChild(logo);
+    channel.appendChild(name);
+    results.appendChild(channel);
+  }
 
 
   nav.addEventListener('click', (e) => {
@@ -138,8 +156,7 @@
   }
 
   // Clears all channel components
-  function clearChannels() {
-    const [content] = Array.from(document.getElementsByClassName('content'));
-    content.innerHTML = '';
+  function emptyElement(elm) {
+    document.querySelector(elm).innerHTML = '';
   }
 }());
