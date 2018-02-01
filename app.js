@@ -1,17 +1,18 @@
 (function App() {
-  const channelNames = ['deadmau5', 'syntag', 'relaxbeats', 'donthedeveloper', 'devbowser', 'boogie2988', 'freecodecamp', 'h3h3productions', 'mikemateilive', 'streamerhouse', 'joelpurra', 'monstercat', 'dukenukem2020'];
-  const channelArr = [];
+//  localStorage.removeItem('subscriptions');
+  const storage = localStorage.getItem('subscriptions');
+  const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
-  
-  runApp();
+
+  refresh();
   
   searchInput.addEventListener('keyup', (e) => {
     const input = e.target.value;
     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-    $.getJSON(url, (result) => {
-      if (!result.error) {
-        const channel = new Channel(result);
+    $.getJSON(url, (data) => {
+      if (!data.error) {
+        const channel = new Channel(data);
         emptyElement('.results');
         renderResults(channel);
         if (!alreadySubscribed(channel)) addBtnListener(channel);
@@ -23,17 +24,23 @@
 
 
   function alreadySubscribed(channel) {
-    return channelArr.find(obj => obj.name === channel.name);
+    return subscriptions.find(obj => obj.name === channel.name);
   }
 
 
   function addBtnListener(result) {
     const btn = document.querySelector('.btn--add');
     btn.addEventListener('click', () => {
-      channelArr.push(result);
+      subscribe(result);
       hideResults();
-      renderSubscriptions();
+      refresh();
+      // renderSubscriptions();
     });
+  }
+
+  function subscribe(channel) {
+    subscriptions.push(channel);
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
   }
 
   function hideResults() {
@@ -42,7 +49,7 @@
 
   function renderSubscriptions() {
     emptyElement('.content');
-    channelArr.forEach((channel) => {
+    subscriptions.forEach((channel) => {
       render(channel);
     });
   }
@@ -108,26 +115,26 @@
   /* *** HELPER FUNCTIONS *** */
 
   // Fetch data
-  function runApp() {
-    channelNames.forEach((name) => {
-      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${name}?callback=?`;
-      const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${name}?callback=?`;
+  function refresh() {
+    if (subscriptions.length) {
+      subscriptions.forEach((obj) => {
+        const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${obj.name}?callback=?`;
+        const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${obj.name}?callback=?`;
 
-      $.getJSON(streamUrl, (streamData) => {
-        let channel;
-        if (streamData.stream) {
-          channel = new Channel(streamData.stream.channel, true);
-          channelArr.push(channel);
-          render(channel);
-        } else {
-          $.getJSON(channelUrl, (channelData) => {
-            channel = new Channel(channelData);
-            channelArr.push(channel);
+        $.getJSON(streamUrl, (streamData) => {
+          let channel;
+          if (streamData.stream) {
+            channel = new Channel(streamData.stream.channel, true);
             render(channel);
-          });
-        }
+          } else {
+            $.getJSON(channelUrl, (channelData) => {
+              channel = new Channel(channelData);
+              render(channel);
+            });
+          }
+        });
       });
-    });
+    }
   }
 
   // Creates channel object
