@@ -97,7 +97,7 @@
     this.name = data.display_name;
     this.logo = data.logo;
     this.stream = isStreaming ? data.game : false;
-    this.substatus = isStreaming ? data.status : '';
+    this.details = isStreaming ? data.status : '';
     this.viewers = data.viewers;
     this.url = data.url;
   }
@@ -106,30 +106,30 @@
   function render(obj) {
     const [container] = document.getElementsByClassName('content');
     const channel = document.createElement('a');
-    const channelInfo = document.createElement('div');
-    const channelImg = document.createElement('img');
-    const channelName = document.createElement('a');
-    const channelStatus = document.createElement('a');
-    const channelSubStatus = document.createElement('div');
+    const user = document.createElement('div');
+    const userImg = document.createElement('img');
+    const userName = document.createElement('a');
+    const status = document.createElement('a');
+    const details = document.createElement('div');
 
-    channelName.innerText = obj.name;
-    channelStatus.innerText = obj.stream ? obj.stream : 'Offline';
+    userName.innerText = obj.name;
+    status.innerText = obj.stream ? obj.stream : 'Offline';
     channel.href = obj.url;
-    channelSubStatus.innerText = obj.substatus;
+    details.innerText = obj.details;
 
     channel.className = obj.stream ? 'channel channel--online' : 'channel';
-    channelInfo.className = 'channel__info';
-    channelImg.className = 'channel__img';
-    channelImg.src = obj.logo;
-    channelName.className = 'channel__name';
-    channelStatus.className = 'channel__status';
-    channelSubStatus.className = 'channel__sub-status';
+    user.className = 'channel__info';
+    userImg.className = 'channel__img';
+    userImg.src = obj.logo;
+    userName.className = 'channel__name';
+    status.className = 'channel__status';
+    details.className = 'channel__details';
 
-    channelInfo.appendChild(channelImg);
-    channelInfo.appendChild(channelName);
-    channel.appendChild(channelInfo);
-    channelStatus.appendChild(channelSubStatus);
-    channel.appendChild(channelStatus);
+    user.appendChild(userImg);
+    user.appendChild(userName);
+    channel.appendChild(user);
+    status.appendChild(details);
+    channel.appendChild(status);
 
     container.appendChild(channel);
   }

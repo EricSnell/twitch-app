@@ -172,7 +172,7 @@ body {
     flex: 1;
     text-align: center;
     transition: all .3s; }
-  .channel__sub-status {
+  .channel__details {
     font-size: 1.3rem;
     margin-top: 5px; }
   .channel--online .channel__name::after {
