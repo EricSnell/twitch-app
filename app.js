@@ -6,16 +6,20 @@
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   refresh();
-  //setInterval(refresh, 60000);
-  // Function to checkStatus that calls streaming endpoint and updates object where value is different
+  // setInterval(refresh, 60000);
+
+  /*
+    Function to checkStatus that calls streaming endpoint and
+    updates object where value is different
+  */
 
   searchInput.addEventListener('keyup', showResults);
-  
+
   function showResults(e) {
     setTimeout(() => {
       const input = e.target.value;
       const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-      $.getJSON(url, (data) => {
+      $.getJSON(url, data => {
         const result = !data.error;
         if (result) {
           const channel = new Channel(data);
@@ -47,32 +51,21 @@
     const btn = document.querySelector('.btn--add');
     btn.addEventListener('click', () => {
       subscribe(result);
-      emptyElement('.results');
-      // hideResults();
-      // renderSubscriptions();
       refresh();
+      emptyElement('.results');
+      emptyInput();
     });
   }
 
-  function subscribe(channel) {
-    console.log('subs before:', subscriptions);
-    subscriptions.push(channel);
-    console.log('subs after:', subscriptions);
-    console.log('local before:', localStorage['subscriptions']);
-    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-    console.log('local after:', localStorage['subscriptions']);
+  function emptyInput() {
+    const [input] = searchInput.getElementsByClassName('search__input');
+    input.value = '';
   }
 
-  // function hideResults() {
-  //   document.querySelector('.results').innerHTML = '';
-  // }
-
-  // function renderSubscriptions() {
-  //   emptyElement('.content');
-  //   subscriptions.forEach((channel) => {
-  //     render(channel);
-  //   });
-  // }
+  function subscribe(channel) {
+    subscriptions.push(channel);
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+  }
 
   function renderResults(data) {
     const [results] = Array.from(document.getElementsByClassName('results'));
@@ -96,24 +89,23 @@
     results.appendChild(channel);
   }
 
-
-  nav.addEventListener('click', (e) => {
+  nav.addEventListener('click', e => {
     const filter = e.target.innerText;
     const channels = Array.from(document.getElementsByClassName('channel'));
     const navItems = Array.from(nav.getElementsByClassName('nav__item'));
 
-    navItems.forEach((item) => {
+    navItems.forEach(item => {
       item.classList.remove('nav__item--active');
     });
 
     e.target.classList.add('nav__item--active');
 
     if (filter === 'ALL') {
-      channels.forEach((channel) => {
+      channels.forEach(channel => {
         channel.classList.remove('hidden');
       });
     } else if (filter === 'ONLINE') {
-      channels.forEach((channel) => {
+      channels.forEach(channel => {
         if (channel.classList.contains('channel--online')) {
           channel.classList.remove('hidden');
         } else {
@@ -121,7 +113,7 @@
         }
       });
     } else {
-      channels.forEach((channel) => {
+      channels.forEach(channel => {
         if (channel.classList.contains('channel--online')) {
           channel.classList.add('hidden');
         } else {
@@ -131,24 +123,27 @@
     }
   });
 
-
   /* *** HELPER FUNCTIONS *** */
 
   // Fetch data
   function refresh() {
     emptyElement('.content');
     if (subscriptions.length) {
-      subscriptions.forEach((obj) => {
-        const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${obj.name}?callback=?`;
-        const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${obj.name}?callback=?`;
+      subscriptions.forEach(obj => {
+        const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
+          obj.name
+        }?callback=?`;
+        const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${
+          obj.name
+        }?callback=?`;
 
-        $.getJSON(streamUrl, (streamData) => {
+        $.getJSON(streamUrl, streamData => {
           let channel;
           if (streamData.stream) {
             channel = new Channel(streamData.stream.channel, true);
             render(channel);
           } else {
-            $.getJSON(channelUrl, (channelData) => {
+            $.getJSON(channelUrl, channelData => {
               channel = new Channel(channelData);
               render(channel);
             });
@@ -200,8 +195,8 @@
     container.appendChild(channel);
   }
 
-  // Clears all channel components
+  // Clears an element
   function emptyElement(elm) {
     document.querySelector(elm).innerHTML = '';
   }
-}());
+})();
