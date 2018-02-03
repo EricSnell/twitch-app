@@ -39,11 +39,20 @@ html {
 // APP
 
 body {
+  height: 100%;
   font-family: 'Helvetica Neue', sans-serif;
   font-size: 2rem;
   background-image: linear-gradient(to top right, var(--color-primary-1), var(--color-primary-2));
   background-attachment: fixed;
 }
+
+.wrapper {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+  
 
 
 .app {
@@ -310,12 +319,13 @@ body {
 }
 
 .footer {
-  text-align: center;
+  width: 100%;
+  padding: 5rem 0;
   color: var(--color-primary-3);
+  text-align: center;
   font-weight: 100;
   font-size: 1.6rem;
   letter-spacing: 2px;
-  margin-bottom: 6rem;
   
   &__link {
     color: inherit;

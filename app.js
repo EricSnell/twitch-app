@@ -1,12 +1,12 @@
 (function App() {
-  //localStorage.removeItem('subscriptions');
+  localStorage.removeItem('subscriptions');
   const storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   refresh();
-  setInterval(refresh, 60000);
+  //setInterval(refresh, 60000);
   // Function to checkStatus that calls streaming endpoint and updates object where value is different
 
   searchInput.addEventListener('keyup', showResults);
