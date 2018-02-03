@@ -12,23 +12,25 @@
   searchInput.addEventListener('keyup', showResults);
   
   function showResults(e) {
-    const input = e.target.value;
-    const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-    $.getJSON(url, (data) => {
-      const result = !data.error;
-      if (result) {
-        const channel = new Channel(data);
-        emptyElement('.results');
-        renderResults(channel);
-        if (!alreadySubscribed(channel)) {
-          addBtnListener(channel);
+    setTimeout(() => {
+      const input = e.target.value;
+      const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+      $.getJSON(url, (data) => {
+        const result = !data.error;
+        if (result) {
+          const channel = new Channel(data);
+          emptyElement('.results');
+          renderResults(channel);
+          if (!alreadySubscribed(channel)) {
+            addBtnListener(channel);
+          } else {
+            deactivateButton();
+          }
         } else {
-          deactivateButton();
+          emptyElement('.results');
         }
-      } else {
-        emptyElement('.results');
-      }
-    });
+      });
+    }, 1000);
   }
 
   function deactivateButton() {
