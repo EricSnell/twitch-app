@@ -6,7 +6,9 @@
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
 
   refresh();
-  
+  setInterval(refresh, 60000);
+  // Function to checkStatus that calls streaming endpoint and updates object where value is different
+
   searchInput.addEventListener('keyup', showResults);
   
   function showResults(e) {
@@ -18,11 +20,21 @@
         const channel = new Channel(data);
         emptyElement('.results');
         renderResults(channel);
-        if (!alreadySubscribed(channel)) addBtnListener(channel);
+        if (!alreadySubscribed(channel)) {
+          addBtnListener(channel);
+        } else {
+          deactivateButton();
+        }
       } else {
         emptyElement('.results');
       }
     });
+  }
+
+  function deactivateButton() {
+    const [btn] = document.getElementsByClassName('btn--add');
+    btn.style.backgroundColor = 'var(--color-primary-2)';
+    btn.innerText = 'FOLLOWING';
   }
 
   function alreadySubscribed(channel) {
