@@ -1,14 +1,23 @@
 (function App() {
-  // localStorage.removeItem('subscriptions');
-  const storage = localStorage.getItem('subscriptions');
+  //localStorage.removeItem('subscriptions');
+  let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
   let timer = null;
+  let refreshTimer = null;
 
-  updateStatusAll();
-  renderAll();
-  setInterval(updateStatusAll, 300000); // update every 5 mins
+  setRefreshTimer();
+
+  function setRefreshTimer() {
+    if (storage) {
+      clearInterval(refreshTimer);
+      refreshTimer = setInterval(updateStatusAll, 3000);
+    } else {
+      return false;
+    }
+    return true;
+  }
 
   searchInput.addEventListener('keyup', showResults);
 
@@ -40,7 +49,6 @@
     btn.addEventListener('click', () => {
       subscribe(result);
       updateStatusAll();
-      renderAll();
       emptyElement('.results');
       emptyInput();
     });
@@ -83,6 +91,7 @@
   /* *** HELPER FUNCTIONS *** */
 
   function updateStatusAll() {
+    console.log('subscriptions>>', subscriptions[0].stream);
     subscriptions.forEach(obj => {
       const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
@@ -92,6 +101,9 @@
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
         obj.details = stream ? stream.channel.status : '';
+        renderAll();
+        updateStorage();
+        setRefreshTimer();
       });
     });
   }
@@ -159,11 +171,16 @@
 
   function subscribe(channel) {
     subscriptions.push(channel);
-    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    updateStorage();
   }
 
   function alreadySubscribed(channel) {
     return subscriptions.find(obj => obj.name === channel.name);
+  }
+
+  function updateStorage() {
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    storage = JSON.parse(localStorage.getItem('subscriptions'));
   }
 
   // Creates channel object
