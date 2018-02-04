@@ -313,7 +313,7 @@ body {
     transform: scale(1.02);
     z-index: 1;
 
-    @media only screen and (max-width: 500px) {
+    @media only screen and (max-width: 730px) {
       transform: scale(1);
     }
   }
