@@ -7,6 +7,7 @@
   let timer = null;
 
   updateStatusAll();
+  renderAll();
   setInterval(updateStatusAll, 300000); // update every 5 mins
 
   searchInput.addEventListener('keyup', showResults);
@@ -38,7 +39,8 @@
     const btn = document.querySelector('.btn--add');
     btn.addEventListener('click', () => {
       subscribe(result);
-      refresh();
+      updateStatusAll();
+      renderAll();
       emptyElement('.results');
       emptyInput();
     });
@@ -81,10 +83,7 @@
   /* *** HELPER FUNCTIONS *** */
 
   function updateStatusAll() {
-    emptyElement('.content');
     subscriptions.forEach(obj => {
-      console.log('updating....');
-      console.log('channel before>>', obj.stream);
       const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
       }?callback=?`;
@@ -93,38 +92,15 @@
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
         obj.details = stream ? stream.channel.status : '';
-        console.log('channel after>>', obj.stream);
-        renderChannel(obj);
       });
     });
   }
 
-  // Fetch data
-  function refresh() {
+  function renderAll() {
     emptyElement('.content');
-    if (subscriptions.length) {
-      subscriptions.forEach(obj => {
-        const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
-          obj.name
-        }?callback=?`;
-        const channelUrl = `https://wind-bow.gomix.me/twitch-api/channels/${
-          obj.name
-        }?callback=?`;
-
-        $.getJSON(streamUrl, streamData => {
-          let channel;
-          if (streamData.stream) {
-            channel = new Channel(streamData.stream.channel, true);
-            renderChannel(channel);
-          } else {
-            $.getJSON(channelUrl, channelData => {
-              channel = new Channel(channelData);
-              renderChannel(channel);
-            });
-          }
-        });
-      });
-    }
+    subscriptions.forEach(channel => {
+      renderChannel(channel);
+    });
   }
 
   function renderSearchResult(data) {

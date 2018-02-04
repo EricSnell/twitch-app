@@ -2,13 +2,14 @@
 
 :root {
   --color-primary-1: #322951;
-  --color-primary-2: #8F74C5;
+  --color-primary-2: #8f74c5;
   --color-primary-3: #d3cae8;
   --color-primary-4: #bca9e8;
 
-  --color-green: #14AF5B;
+  --color-green: #14af5b;
+  --color-green-darken: #11984f;
 
-  --color-dark-1: #1E1A26;
+  --color-dark-1: #1e1a26;
   --color-dark-2: #2c2541;
 
   --color-white: #ffffff;
@@ -24,7 +25,7 @@
 html {
   height: 100%;
   box-sizing: border-box;
-  font-size: 62.5%;   // 10/16 = 62.5%
+  font-size: 62.5%; // 10/16 = 62.5%
 }
 
 *,
@@ -34,15 +35,17 @@ html {
   list-style: none;
 }
 
-
-
 // APP
 
 body {
   height: 100%;
   font-family: 'Helvetica Neue', sans-serif;
   font-size: 2rem;
-  background-image: linear-gradient(to top right, var(--color-primary-1), var(--color-primary-2));
+  background-image: linear-gradient(
+    to top right,
+    var(--color-primary-1),
+    var(--color-primary-2)
+  );
   background-attachment: fixed;
 }
 
@@ -52,21 +55,18 @@ body {
   flex-direction: column;
   justify-content: space-between;
 }
-  
-
 
 .app {
   max-width: 65rem;
   margin: 4rem auto 6rem;
   border-radius: 5px;
-  box-shadow: 0 3rem 8rem rgba(0, 0, 0, .4);
+  box-shadow: 0 3rem 8rem rgba(0, 0, 0, 0.4);
 
   @media only screen and (max-width: 730px) {
     margin: 0 0 6rem;
     max-width: 100%;
   }
 }
-
 
 .header {
   background: var(--color-white);
@@ -93,7 +93,6 @@ body {
   }
 }
 
-
 .nav {
   flex: 0 0 100%;
   align-self: stretch;
@@ -103,7 +102,7 @@ body {
   @media only screen and (max-width: 500px) {
     flex: 1;
   }
-  
+
   &__list {
     width: 100%;
     display: flex;
@@ -116,7 +115,7 @@ body {
     align-items: center;
     cursor: pointer;
     font-size: 1.3rem;
-    transition: all .3s;
+    transition: all 0.3s;
     text-transform: uppercase;
     height: 5rem;
   }
@@ -129,7 +128,6 @@ body {
     background: var(--color-primary-4);
   }
 }
-
 
 .search {
   width: 50%;
@@ -152,20 +150,21 @@ body {
     top: 0;
     z-index: 1;
   }
-  
+
   &__input {
     border: 1px solid #dad8de;
     position: relative;
     width: 100%;
     height: 3.5rem;
-    padding: .5rem 1rem;
+    padding: 0.5rem 1rem;
     padding-left: 3.5rem;
     font-size: 1.7rem;
     line-height: 1.5rem;
     font-family: inherit;
-    transition: all .2s;
-    
-      &:focus {
+    transition: all 0.2s;
+    z-index: 999999;
+
+    &:focus {
       outline: none;
       border-color: #7d5bbe;
       box-shadow: 0 0 1rem -2px #7d5bbe;
@@ -173,13 +172,12 @@ body {
   }
 }
 
-
 .results {
   position: absolute;
   border: 1px solid #ddd;
   width: 100%;
   z-index: 100;
-  
+
   &__item {
     background: #eee;
     display: flex;
@@ -191,7 +189,7 @@ body {
   &__img {
     width: 3.5rem;
     height: 3.5rem;
-    margin-right: 1rem; 
+    margin-right: 1rem;
   }
 
   &__name {
@@ -207,14 +205,18 @@ body {
     text-transform: uppercase;
     color: var(--color-white);
     outline: none;
+    cursor: pointer;
+    transition: background 0.3s;
+
+    &:hover {
+      background: var(--color-green-darken);
+    }
   }
 }
-
 
 .content {
   background: #eee;
 }
-
 
 .channel {
   position: relative;
@@ -227,7 +229,7 @@ body {
   cursor: pointer;
   min-height: 9.5rem;
   transform: scale(1);
-  transition: all .3s;
+  transition: all 0.3s;
   border-bottom: 2px solid #898395;
   backface-visibility: hidden; // fix animation glitch
   padding: 2rem 1rem;
@@ -238,7 +240,6 @@ body {
     height: auto;
   }
 
-  
   &__info {
     flex: 0 0 60%;
     color: #fff;
@@ -249,7 +250,7 @@ body {
       flex-direction: column;
     }
   }
-  
+
   &__img {
     width: 7rem;
     height: 7rem;
@@ -261,23 +262,23 @@ body {
       margin-bottom: 1.3rem;
     }
   }
-  
+
   &__name {
     color: #b8b5c0;
     font-weight: 300;
-    transition: all .3s;
+    transition: all 0.3s;
 
     @media only screen and (max-width: 500px) {
-      margin-bottom: .5rem;
+      margin-bottom: 0.5rem;
     }
   }
-  
+
   &__status {
     text-decoration: none;
     color: #898395;
     flex: 1;
     text-align: center;
-    transition: all .3s;
+    transition: all 0.3s;
   }
 
   &__details {
@@ -288,8 +289,8 @@ body {
   &--online &__name::after {
     content: '';
     display: inline-block;
-    width: .7rem;
-    height: .7rem;
+    width: 0.7rem;
+    height: 0.7rem;
     border-radius: 100%;
     background: var(--color-green);
     position: relative;
@@ -297,7 +298,7 @@ body {
     bottom: 8px;
     animation: pulsate 2s alternate infinite;
   }
-  
+
   &--online {
     border-bottom: 2px solid var(--color-green) !important;
   }
@@ -326,11 +327,11 @@ body {
   font-weight: 100;
   font-size: 1.6rem;
   letter-spacing: 2px;
-  
+
   &__link {
     color: inherit;
     text-decoration: none;
-    transition: all .3s;
+    transition: all 0.3s;
 
     &:hover {
       color: var(--color-primary-4);
@@ -338,15 +339,13 @@ body {
   }
 }
 
-
 .hidden {
   display: none;
 }
 
-
 @keyframes pulsate {
   0% {
-    opacity: .3;
+    opacity: 0.3;
     box-shadow: none;
   }
 
@@ -354,7 +353,7 @@ body {
     opacity: 1;
     box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
   }
-  
+
   100% {
     opacity: 1;
     box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
