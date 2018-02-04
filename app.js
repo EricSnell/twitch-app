@@ -3,7 +3,9 @@
   let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
-  const [searchInput] = Array.from(document.getElementsByClassName('search'));
+  const [searchInput] = Array.from(
+    document.getElementsByClassName('search__input')
+  );
   let timer = null;
   let refreshTimer = null;
 
@@ -11,6 +13,11 @@
   setRefreshTimer();
 
   searchInput.addEventListener('keyup', showResults);
+
+  searchInput.addEventListener('blur', () => {
+    emptyElement('.results');
+    emptyInput();
+  });
 
   function setRefreshTimer() {
     if (storage) {
@@ -200,8 +207,7 @@
   }
 
   function emptyInput() {
-    const [input] = searchInput.getElementsByClassName('search__input');
-    input.value = '';
+    searchInput.value = '';
   }
 
   function emptyElement(elm) {
