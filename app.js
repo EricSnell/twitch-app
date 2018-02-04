@@ -14,9 +14,12 @@
 
   searchInput.addEventListener('keyup', showResults);
 
-  searchInput.addEventListener('blur', () => {
-    emptyElement('.results');
-    emptyInput();
+  searchInput.addEventListener('blur', e => {
+    const addBtn = document.querySelector('.btn--add');
+    if (e.relatedTarget !== addBtn) {
+      emptyElement('.results');
+      emptyInput();
+    }
   });
 
   function setRefreshTimer() {
