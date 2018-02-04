@@ -1,5 +1,5 @@
 (function App() {
-  //localStorage.removeItem('subscriptions');
+  // localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
@@ -7,19 +7,20 @@
   let timer = null;
   let refreshTimer = null;
 
+  updateStatusAll();
   setRefreshTimer();
+
+  searchInput.addEventListener('keyup', showResults);
 
   function setRefreshTimer() {
     if (storage) {
       clearInterval(refreshTimer);
-      refreshTimer = setInterval(updateStatusAll, 3000);
+      refreshTimer = setInterval(updateStatusAll, 300000);
     } else {
       return false;
     }
     return true;
   }
-
-  searchInput.addEventListener('keyup', showResults);
 
   function showResults(e) {
     clearTimeout(timer);
@@ -91,7 +92,6 @@
   /* *** HELPER FUNCTIONS *** */
 
   function updateStatusAll() {
-    console.log('subscriptions>>', subscriptions[0].stream);
     subscriptions.forEach(obj => {
       const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
