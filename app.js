@@ -1,22 +1,19 @@
 (function App() {
-  localStorage.removeItem('subscriptions');
+  // localStorage.removeItem('subscriptions');
   const storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
   const [searchInput] = Array.from(document.getElementsByClassName('search'));
+  let timer = null;
 
-  refresh();
-  // setInterval(refresh, 60000);
-
-  /*
-    Function to checkStatus that calls streaming endpoint and
-    updates object where value is different
-  */
+  updateStatusAll();
+  setInterval(updateStatusAll, 300000); // update every 5 mins
 
   searchInput.addEventListener('keyup', showResults);
 
   function showResults(e) {
-    setTimeout(() => {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
       const input = e.target.value;
       const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
       $.getJSON(url, data => {
@@ -24,7 +21,7 @@
         if (result) {
           const channel = new Channel(data);
           emptyElement('.results');
-          renderResults(channel);
+          renderSearchResult(channel);
           if (!alreadySubscribed(channel)) {
             addBtnListener(channel);
           } else {
@@ -34,17 +31,7 @@
           emptyElement('.results');
         }
       });
-    }, 1000);
-  }
-
-  function deactivateButton() {
-    const [btn] = document.getElementsByClassName('btn--add');
-    btn.style.backgroundColor = 'var(--color-primary-2)';
-    btn.innerText = 'FOLLOWING';
-  }
-
-  function alreadySubscribed(channel) {
-    return subscriptions.find(obj => obj.name === channel.name);
+    }, 500);
   }
 
   function addBtnListener(result) {
@@ -55,38 +42,6 @@
       emptyElement('.results');
       emptyInput();
     });
-  }
-
-  function emptyInput() {
-    const [input] = searchInput.getElementsByClassName('search__input');
-    input.value = '';
-  }
-
-  function subscribe(channel) {
-    subscriptions.push(channel);
-    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-  }
-
-  function renderResults(data) {
-    const [results] = Array.from(document.getElementsByClassName('results'));
-    const channel = document.createElement('div');
-    const logo = document.createElement('img');
-    const name = document.createElement('span');
-    const addBtn = document.createElement('button');
-
-    channel.className = 'results__item';
-    logo.className = 'results__img';
-    name.className = 'results__name';
-    addBtn.className = 'btn--add';
-
-    name.innerText = data.name;
-    logo.src = data.logo;
-    addBtn.innerText = 'Add';
-
-    channel.appendChild(logo);
-    channel.appendChild(name);
-    channel.appendChild(addBtn);
-    results.appendChild(channel);
   }
 
   nav.addEventListener('click', e => {
@@ -125,6 +80,25 @@
 
   /* *** HELPER FUNCTIONS *** */
 
+  function updateStatusAll() {
+    emptyElement('.content');
+    subscriptions.forEach(obj => {
+      console.log('updating....');
+      console.log('channel before>>', obj.stream);
+      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
+        obj.name
+      }?callback=?`;
+
+      $.getJSON(streamUrl, streamData => {
+        const { stream } = streamData;
+        obj.stream = stream ? stream.game : false;
+        obj.details = stream ? stream.channel.status : '';
+        console.log('channel after>>', obj.stream);
+        renderChannel(obj);
+      });
+    });
+  }
+
   // Fetch data
   function refresh() {
     emptyElement('.content');
@@ -141,11 +115,11 @@
           let channel;
           if (streamData.stream) {
             channel = new Channel(streamData.stream.channel, true);
-            render(channel);
+            renderChannel(channel);
           } else {
             $.getJSON(channelUrl, channelData => {
               channel = new Channel(channelData);
-              render(channel);
+              renderChannel(channel);
             });
           }
         });
@@ -153,18 +127,30 @@
     }
   }
 
-  // Creates channel object
-  function Channel(data, isStreaming = false) {
-    this.name = data.display_name;
-    this.logo = data.logo;
-    this.stream = isStreaming ? data.game : false;
-    this.details = isStreaming ? data.status : '';
-    this.viewers = data.viewers;
-    this.url = data.url;
+  function renderSearchResult(data) {
+    const [results] = Array.from(document.getElementsByClassName('results'));
+    const channel = document.createElement('div');
+    const logo = document.createElement('img');
+    const name = document.createElement('span');
+    const addBtn = document.createElement('button');
+
+    channel.className = 'results__item';
+    logo.className = 'results__img';
+    name.className = 'results__name';
+    addBtn.className = 'btn--add';
+
+    name.innerText = data.name;
+    logo.src = data.logo;
+    addBtn.innerText = 'Add';
+
+    channel.appendChild(logo);
+    channel.appendChild(name);
+    channel.appendChild(addBtn);
+    results.appendChild(channel);
   }
 
   // Renders individual channel component
-  function render(obj) {
+  function renderChannel(obj) {
     const [container] = document.getElementsByClassName('content');
     const channel = document.createElement('a');
     const user = document.createElement('div');
@@ -195,7 +181,36 @@
     container.appendChild(channel);
   }
 
-  // Clears an element
+  function subscribe(channel) {
+    subscriptions.push(channel);
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+  }
+
+  function alreadySubscribed(channel) {
+    return subscriptions.find(obj => obj.name === channel.name);
+  }
+
+  // Creates channel object
+  function Channel(data, isStreaming = false) {
+    this.name = data.display_name;
+    this.logo = data.logo;
+    this.stream = isStreaming ? data.game : false;
+    this.details = isStreaming ? data.status : '';
+    this.viewers = data.viewers;
+    this.url = data.url;
+  }
+
+  function deactivateButton() {
+    const [btn] = document.getElementsByClassName('btn--add');
+    btn.style.backgroundColor = 'var(--color-primary-2)';
+    btn.innerText = 'FOLLOWING';
+  }
+
+  function emptyInput() {
+    const [input] = searchInput.getElementsByClassName('search__input');
+    input.value = '';
+  }
+
   function emptyElement(elm) {
     document.querySelector(elm).innerHTML = '';
   }
