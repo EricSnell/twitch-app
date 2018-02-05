@@ -18,6 +18,7 @@
     const addBtn = document.querySelector('.btn--add');
     if (e.relatedTarget !== addBtn) {
       emptyElement('.results');
+      hideElement('.results');
       emptyInput();
     }
   });
@@ -46,7 +47,7 @@
           if (!alreadySubscribed(channel)) {
             addBtnListener(channel);
           } else {
-            deactivateButton();
+            disableButton();
           }
         } else {
           emptyElement('.results');
@@ -108,6 +109,7 @@
       }?callback=?`;
 
       $.getJSON(streamUrl, streamData => {
+        console.log('all stream data', streamData);
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
         obj.details = stream ? stream.channel.status : '';
@@ -137,6 +139,7 @@
     name.className = 'results__name';
     addBtn.className = 'btn--add';
 
+    results.style.visibility = 'visible';
     name.innerText = data.name;
     logo.src = data.logo;
     addBtn.innerText = 'Add';
@@ -203,10 +206,10 @@
     this.url = data.url;
   }
 
-  function deactivateButton() {
+  function disableButton() {
     const [btn] = document.getElementsByClassName('btn--add');
-    btn.style.backgroundColor = 'var(--color-primary-2)';
-    btn.innerText = 'FOLLOWING';
+    btn.disabled = true;
+    btn.innerText = 'Following';
   }
 
   function emptyInput() {
@@ -215,5 +218,9 @@
 
   function emptyElement(elm) {
     document.querySelector(elm).innerHTML = '';
+  }
+
+  function hideElement(elm) {
+    document.querySelector(elm).style.visibility = 'hidden';
   }
 })();
