@@ -9,28 +9,31 @@
   let timer = null;
   let refreshTimer = null;
 
-  updateStatusAll();
-  setRefreshTimer();
+  init();
 
-  searchInput.addEventListener('keyup', showResults);
+  function init() {
+    updateStatusAll();
+    setRefreshTimer();
+    searchInput.addEventListener('keyup', showResults);
+    searchInput.addEventListener('blur', closeResults);
+    nav.addEventListener('click', filterChannels);
+  }
 
-  searchInput.addEventListener('blur', e => {
+  function closeResults(e) {
     const addBtn = document.querySelector('.btn--add');
-    if (e.relatedTarget !== addBtn) {
+    const secondaryTarget = e.relatedTarget;
+    if (secondaryTarget !== addBtn) {
       emptyElement('.results');
       hideElement('.results');
       emptyInput();
     }
-  });
+  }
 
   function setRefreshTimer() {
     if (storage) {
       clearInterval(refreshTimer);
       refreshTimer = setInterval(updateStatusAll, 300000);
-    } else {
-      return false;
     }
-    return true;
   }
 
   function showResults(e) {
@@ -44,19 +47,20 @@
           const channel = new Channel(data);
           emptyElement('.results');
           renderSearchResult(channel);
-          if (!alreadySubscribed(channel)) {
-            addBtnListener(channel);
-          } else {
+          if (alreadySubscribed(channel)) {
             disableButton();
+          } else {
+            addListener(channel);
           }
         } else {
           emptyElement('.results');
         }
       });
-    }, 500);
+    }, 400);
   }
 
-  function addBtnListener(result) {
+  // use event delegation and put listener on the search section
+  function addListener(result) {
     const btn = document.querySelector('.btn--add');
     btn.addEventListener('click', () => {
       subscribe(result);
@@ -66,7 +70,7 @@
     });
   }
 
-  nav.addEventListener('click', e => {
+  function filterChannels(e) {
     const filter = e.target.innerText;
     const channels = Array.from(document.getElementsByClassName('channel'));
     const navItems = Array.from(nav.getElementsByClassName('nav__item'));
@@ -98,9 +102,7 @@
         }
       });
     }
-  });
-
-  /* *** HELPER FUNCTIONS *** */
+  }
 
   function updateStatusAll() {
     subscriptions.forEach(obj => {
@@ -109,7 +111,6 @@
       }?callback=?`;
 
       $.getJSON(streamUrl, streamData => {
-        console.log('all stream data', streamData);
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
         obj.details = stream ? stream.channel.status : '';
@@ -133,17 +134,17 @@
     const logo = document.createElement('img');
     const name = document.createElement('span');
     const addBtn = document.createElement('button');
-
+    // Set class names
     channel.className = 'results__item';
     logo.className = 'results__img';
     name.className = 'results__name';
     addBtn.className = 'btn--add';
-
+    // Set styles, text and attributes
     results.style.visibility = 'visible';
     name.innerText = data.name;
     logo.src = data.logo;
     addBtn.innerText = 'Add';
-
+    // Append Elements
     channel.appendChild(logo);
     channel.appendChild(name);
     channel.appendChild(addBtn);
@@ -159,12 +160,12 @@
     const userName = document.createElement('a');
     const status = document.createElement('a');
     const details = document.createElement('div');
-
+    // Set text and attributes
     userName.innerText = obj.name;
     status.innerText = obj.stream ? obj.stream : 'Offline';
     channel.href = obj.url;
     details.innerText = obj.details;
-
+    // Set class names
     channel.className = obj.stream ? 'channel channel--online' : 'channel';
     user.className = 'channel__info';
     userImg.className = 'channel__img';
@@ -172,31 +173,15 @@
     userName.className = 'channel__name';
     status.className = 'channel__status';
     details.className = 'channel__details';
-
+    // Append Elements
     user.appendChild(userImg);
     user.appendChild(userName);
     channel.appendChild(user);
     status.appendChild(details);
     channel.appendChild(status);
-
     container.appendChild(channel);
   }
 
-  function subscribe(channel) {
-    subscriptions.push(channel);
-    updateStorage();
-  }
-
-  function alreadySubscribed(channel) {
-    return subscriptions.find(obj => obj.name === channel.name);
-  }
-
-  function updateStorage() {
-    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-    storage = JSON.parse(localStorage.getItem('subscriptions'));
-  }
-
-  // Creates channel object
   function Channel(data, isStreaming = false) {
     this.name = data.display_name;
     this.logo = data.logo;
@@ -206,6 +191,21 @@
     this.url = data.url;
   }
 
+  function alreadySubscribed(channel) {
+    return subscriptions.find(obj => obj.name === channel.name);
+  }
+
+  function subscribe(channel) {
+    subscriptions.push(channel);
+    updateStorage();
+  }
+
+  function updateStorage() {
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    storage = JSON.parse(localStorage.getItem('subscriptions'));
+  }
+
+  // Styling Functions
   function disableButton() {
     const [btn] = document.getElementsByClassName('btn--add');
     btn.disabled = true;
