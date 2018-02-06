@@ -9,36 +9,96 @@
   const [search] = Array.from(document.getElementsByClassName('search'));
   let resultsTimer = null;
   let refreshTimer = null;
+  let searchResult;
 
   init();
 
   function init() {
     updateStatusAll();
     setRefreshTimer();
-    searchInput.addEventListener('keyup', showResults);
+    searchInput.addEventListener('keyup', runSearch);
     searchInput.addEventListener('blur', closeResults);
+    search.addEventListener('click', addUser);
     nav.addEventListener('click', filterChannels);
   }
 
-  function closeResults(e) {
-    const addBtn = document.querySelector('.btn--add');
-    const secondaryTarget = e.relatedTarget;
-    if (secondaryTarget !== addBtn) {
+  function Channel(data, isStreaming = false) {
+    this.name = data.display_name;
+    this.logo = data.logo;
+    this.stream = isStreaming ? data.game : false;
+    this.details = isStreaming ? data.status : '';
+    this.viewers = data.viewers;
+    this.url = data.url;
+  }
+
+  function runSearch(e) {
+    e.stopPropagation();
+    clearTimeout(resultsTimer);
+    resultsTimer = setTimeout(() => {
+      fetchUser(e);
+    }, 400);
+  }
+
+  function fetchUser(e) {
+    const input = e.target.value;
+    const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+    $.getJSON(url, data => {
+      console.log('fetching query...');
+      const result = !data.error;
+      if (result) {
+        const channel = new Channel(data);
+        emptyElement('.results');
+        renderSearchResult(channel);
+        if (alreadySubscribed(channel)) {
+          disableButton();
+        } else {
+          searchResult = channel;
+        }
+      } else {
+        emptyElement('.results');
+      }
+    });
+  }
+
+  function addUser(e) {
+    if (e.target.className === 'btn--add') {
+      e.stopPropagation();
+      subscribe(searchResult);
+      updateStatusAll();
       emptyElement('.results');
-      hideElement('.results');
       emptyInput();
     }
   }
 
-  // use event delegation and put listener on the search section
-  function addListener(result) {
-    const btn = document.querySelector('.btn--add');
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      subscribe(result);
-      updateStatusAll();
-      emptyElement('.results');
-      emptyInput();
+  function alreadySubscribed(channel) {
+    return subscriptions.find(obj => obj.name === channel.name);
+  }
+
+  function subscribe(channel) {
+    subscriptions.push(channel);
+    updateStorage();
+  }
+
+  function updateStorage() {
+    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
+    storage = JSON.parse(localStorage.getItem('subscriptions'));
+  }
+
+  function updateStatusAll() {
+    console.log('updating...');
+    subscriptions.forEach(obj => {
+      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
+        obj.name
+      }?callback=?`;
+
+      $.getJSON(streamUrl, streamData => {
+        const { stream } = streamData;
+        obj.stream = stream ? stream.game : false;
+        obj.details = stream ? stream.channel.status : '';
+        renderAll();
+        updateStorage();
+        setRefreshTimer();
+      });
     });
   }
 
@@ -49,57 +109,14 @@
     }
   }
 
-  // function showResults(e) {
-  //   e.stopPropagation();
-  //   clearTimeout(resultsTimer);
-  //   resultsTimer = setTimeout(() => {
-  //     const input = e.target.value;
-  //     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-  //     $.getJSON(url, data => {
-  //       const result = !data.error;
-  //       if (result) {
-  //         const channel = new Channel(data);
-  //         emptyElement('.results');
-  //         renderSearchResult(channel);
-  //         if (alreadySubscribed(channel)) {
-  //           disableButton();
-  //         } else {
-  //           addListener(channel);
-  //         }
-  //       } else {
-  //         emptyElement('.results');
-  //       }
-  //     });
-  //   }, 400);
-  // }
-
-  function showResults(e) {
-    e.stopPropagation();
-    clearTimeout(resultsTimer);
-    resultsTimer = setTimeout(() => {
-      fetchResults(e);
-    }, 400);
-  }
-
-  function fetchResults(e) {
-    const input = e.target.value;
-    const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-    $.getJSON(url, data => {
-      console.log('buh');
-      const result = !data.error;
-      if (result) {
-        const channel = new Channel(data);
-        emptyElement('.results');
-        renderSearchResult(channel);
-        if (alreadySubscribed(channel)) {
-          disableButton();
-        } else {
-          addListener(channel);
-        }
-      } else {
-        emptyElement('.results');
-      }
-    });
+  function closeResults(e) {
+    const addBtn = document.querySelector('.btn--add');
+    const secondaryTarget = e.relatedTarget;
+    if (secondaryTarget !== addBtn) {
+      emptyElement('.results');
+      hideElement('.results');
+      emptyInput();
+    }
   }
 
   function filterChannels(e) {
@@ -136,24 +153,6 @@
     }
   }
 
-  function updateStatusAll() {
-    console.log('updating...');
-    subscriptions.forEach(obj => {
-      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
-        obj.name
-      }?callback=?`;
-
-      $.getJSON(streamUrl, streamData => {
-        const { stream } = streamData;
-        obj.stream = stream ? stream.game : false;
-        obj.details = stream ? stream.channel.status : '';
-        renderAll();
-        updateStorage();
-        setRefreshTimer();
-      });
-    });
-  }
-
   function renderAll() {
     emptyElement('.content');
     subscriptions.forEach(channel => {
@@ -172,8 +171,7 @@
     logo.className = 'results__img';
     name.className = 'results__name';
     addBtn.className = 'btn--add';
-    // Set styles, text and attributes
-    results.style.visibility = 'visible';
+    // Set text and attributes
     name.innerText = data.name;
     logo.src = data.logo;
     addBtn.innerText = 'Add';
@@ -182,6 +180,7 @@
     channel.appendChild(name);
     channel.appendChild(addBtn);
     results.appendChild(channel);
+    results.style.visibility = 'visible';
   }
 
   // Renders individual channel component
@@ -213,29 +212,6 @@
     status.appendChild(details);
     channel.appendChild(status);
     container.appendChild(channel);
-  }
-
-  function Channel(data, isStreaming = false) {
-    this.name = data.display_name;
-    this.logo = data.logo;
-    this.stream = isStreaming ? data.game : false;
-    this.details = isStreaming ? data.status : '';
-    this.viewers = data.viewers;
-    this.url = data.url;
-  }
-
-  function alreadySubscribed(channel) {
-    return subscriptions.find(obj => obj.name === channel.name);
-  }
-
-  function subscribe(channel) {
-    subscriptions.push(channel);
-    updateStorage();
-  }
-
-  function updateStorage() {
-    localStorage.setItem('subscriptions', JSON.stringify(subscriptions));
-    storage = JSON.parse(localStorage.getItem('subscriptions'));
   }
 
   // Styling Functions
