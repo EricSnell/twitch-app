@@ -6,7 +6,8 @@
   const [searchInput] = Array.from(
     document.getElementsByClassName('search__input')
   );
-  let timer = null;
+  const [search] = Array.from(document.getElementsByClassName('search'));
+  let resultsTimer = null;
   let refreshTimer = null;
 
   init();
@@ -29,6 +30,18 @@
     }
   }
 
+  // use event delegation and put listener on the search section
+  function addListener(result) {
+    const btn = document.querySelector('.btn--add');
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      subscribe(result);
+      updateStatusAll();
+      emptyElement('.results');
+      emptyInput();
+    });
+  }
+
   function setRefreshTimer() {
     if (storage) {
       clearInterval(refreshTimer);
@@ -36,37 +49,56 @@
     }
   }
 
+  // function showResults(e) {
+  //   e.stopPropagation();
+  //   clearTimeout(resultsTimer);
+  //   resultsTimer = setTimeout(() => {
+  //     const input = e.target.value;
+  //     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+  //     $.getJSON(url, data => {
+  //       const result = !data.error;
+  //       if (result) {
+  //         const channel = new Channel(data);
+  //         emptyElement('.results');
+  //         renderSearchResult(channel);
+  //         if (alreadySubscribed(channel)) {
+  //           disableButton();
+  //         } else {
+  //           addListener(channel);
+  //         }
+  //       } else {
+  //         emptyElement('.results');
+  //       }
+  //     });
+  //   }, 400);
+  // }
+
   function showResults(e) {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      const input = e.target.value;
-      const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-      $.getJSON(url, data => {
-        const result = !data.error;
-        if (result) {
-          const channel = new Channel(data);
-          emptyElement('.results');
-          renderSearchResult(channel);
-          if (alreadySubscribed(channel)) {
-            disableButton();
-          } else {
-            addListener(channel);
-          }
-        } else {
-          emptyElement('.results');
-        }
-      });
+    e.stopPropagation();
+    clearTimeout(resultsTimer);
+    resultsTimer = setTimeout(() => {
+      fetchResults(e);
     }, 400);
   }
 
-  // use event delegation and put listener on the search section
-  function addListener(result) {
-    const btn = document.querySelector('.btn--add');
-    btn.addEventListener('click', () => {
-      subscribe(result);
-      updateStatusAll();
-      emptyElement('.results');
-      emptyInput();
+  function fetchResults(e) {
+    const input = e.target.value;
+    const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+    $.getJSON(url, data => {
+      console.log('buh');
+      const result = !data.error;
+      if (result) {
+        const channel = new Channel(data);
+        emptyElement('.results');
+        renderSearchResult(channel);
+        if (alreadySubscribed(channel)) {
+          disableButton();
+        } else {
+          addListener(channel);
+        }
+      } else {
+        emptyElement('.results');
+      }
     });
   }
 
@@ -105,6 +137,7 @@
   }
 
   function updateStatusAll() {
+    console.log('updating...');
     subscriptions.forEach(obj => {
       const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
