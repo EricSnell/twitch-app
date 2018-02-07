@@ -14,7 +14,7 @@
   init();
 
   function init() {
-    updateStatusAll();
+    refresh();
     setRefreshTimer();
     searchInput.addEventListener('keyup', runSearch);
     searchInput.addEventListener('blur', closeResults);
@@ -64,7 +64,7 @@
     if (e.target.className === 'btn--add') {
       e.stopPropagation();
       subscribe(searchResult);
-      updateStatusAll();
+      refresh();
       emptyElement('.results');
       emptyInput();
     }
@@ -84,13 +84,21 @@
     storage = JSON.parse(localStorage.getItem('subscriptions'));
   }
 
-  function updateStatusAll() {
+  function refresh() {
     console.log('updating...');
+    if (subscriptions.length) {
+      hideElement('.helper');
+      fetchStatus();
+    } else {
+      showElement('.helper', 'flex');
+    }
+  }
+
+  function fetchStatus() {
     subscriptions.forEach(obj => {
       const url = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
       }?callback=?`;
-
       $.getJSON(url, streamData => {
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
@@ -105,7 +113,7 @@
   function setRefreshTimer() {
     if (storage) {
       clearInterval(refreshTimer);
-      refreshTimer = setInterval(updateStatusAll, 300000);
+      refreshTimer = setInterval(refresh, 180000);
     }
   }
 
@@ -230,6 +238,10 @@
   }
 
   function hideElement(elm) {
-    document.querySelector(elm).style.visibility = 'hidden';
+    document.querySelector(elm).style.display = 'none';
+  }
+
+  function showElement(elm, prop) {
+    document.querySelector(elm).style.display = prop;
   }
 })();
