@@ -1,5 +1,5 @@
 (function App() {
-  // localStorage.removeItem('subscriptions');
+  localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
@@ -87,11 +87,11 @@
   function updateStatusAll() {
     console.log('updating...');
     subscriptions.forEach(obj => {
-      const streamUrl = `https://wind-bow.gomix.me/twitch-api/streams/${
+      const url = `https://wind-bow.gomix.me/twitch-api/streams/${
         obj.name
       }?callback=?`;
 
-      $.getJSON(streamUrl, streamData => {
+      $.getJSON(url, streamData => {
         const { stream } = streamData;
         obj.stream = stream ? stream.game : false;
         obj.details = stream ? stream.channel.status : '';

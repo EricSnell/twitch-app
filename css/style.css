@@ -165,8 +165,14 @@ body {
       background-color: var(--color-primary-2);
       cursor: default; }
 
-.content {
-  background: #eee; }
+.not-following {
+  background: var(--color-dark-2);
+  color: var(--color-primary-3);
+  font-weight: 100;
+  font-size: 1.8rem;
+  text-align: center;
+  padding: 3rem 0;
+  letter-spacing: 1.3px; }
 
 .channel {
   position: relative;
