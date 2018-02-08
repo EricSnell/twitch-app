@@ -242,7 +242,7 @@ body {
     margin: 0 2.5rem;
     transform: translateY(0);
     opacity: 1;
-    animation: fadeUp 2s infinite;
+    animation: shake 1.8s infinite;
 
     @media only screen and (max-width: 500px) {
       font-size: 3rem;
@@ -404,5 +404,31 @@ body {
   100% {
     opacity: 0;
     transform: translateY(-1rem);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateY(0);
+  }
+
+  60% {
+    transform: translateY(0);
+  }
+
+  70% {
+    transform: translateY(-1rem);
+  }
+
+  80% {
+    transform: translateY(0);
+  }
+
+  90% {
+    transform: translateY(-1rem);
+  }
+
+  100% {
+    transform: translateY(0);
   }
 }
