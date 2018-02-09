@@ -241,7 +241,7 @@
     document.querySelector(elm).style.display = 'none';
   }
 
-  function showElement(elm, prop) {
-    document.querySelector(elm).style.display = prop;
+  function showElement(elm, val) {
+    document.querySelector(elm).style.display = val;
   }
 })();
