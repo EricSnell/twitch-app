@@ -43,6 +43,7 @@ import '../img/logo.png';
   function fetchUser(e) {
     const input = e.target.value;
     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
+    alert('add');
     $.getJSON(url, data => {
       const result = !data.error;
       if (result) {
@@ -62,7 +63,6 @@ import '../img/logo.png';
   }
 
   function addUser(e) {
-    alert('add');
     if (e.target.className === 'btn--add') {
       alert('in add');
       e.stopPropagation();
