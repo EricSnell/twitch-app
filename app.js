@@ -64,6 +64,7 @@
   function addUser(e) {
     if (e.target.className === 'btn--add') {
       e.stopPropagation();
+      alert('add');
       subscribe(searchResult);
       refresh();
       emptyElement('.results');
