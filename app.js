@@ -43,12 +43,12 @@
     const input = e.target.value;
     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
     $.getJSON(url, data => {
-      console.log('fetching query...');
       const result = !data.error;
       if (result) {
         const channel = new Channel(data);
         showElement('.results', 'block');
         emptyElement('.results');
+        hideElement('.nav');
         renderSearchResult(channel);
         if (alreadySubscribed(channel)) {
           disableButton();
@@ -64,7 +64,6 @@
 
   function addUser(e) {
     if (e.target.className === 'btn--add') {
-      console.log('adding user...');
       e.stopPropagation();
       subscribe(searchResult);
       refresh();
@@ -88,7 +87,6 @@
   }
 
   function refresh() {
-    console.log('updating...');
     if (subscriptions.length) {
       hideElement('.helper');
       fetchStatus();
