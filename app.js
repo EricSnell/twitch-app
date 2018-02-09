@@ -47,6 +47,7 @@
       const result = !data.error;
       if (result) {
         const channel = new Channel(data);
+        showElement('.results', 'block');
         emptyElement('.results');
         renderSearchResult(channel);
         if (alreadySubscribed(channel)) {
@@ -56,12 +57,14 @@
         }
       } else {
         emptyElement('.results');
+        hideElement('.results');
       }
     });
   }
 
   function addUser(e) {
     if (e.target.className === 'btn--add') {
+      console.log('adding user...');
       e.stopPropagation();
       subscribe(searchResult);
       refresh();
