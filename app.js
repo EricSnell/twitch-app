@@ -48,7 +48,6 @@
         const channel = new Channel(data);
         showElement('.results', 'block');
         emptyElement('.results');
-        hideElement('.nav');
         renderSearchResult(channel);
         if (alreadySubscribed(channel)) {
           disableButton();
