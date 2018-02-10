@@ -1,5 +1,5 @@
 (function App() {
-  localStorage.removeItem('subscriptions');
+  // localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
@@ -46,7 +46,6 @@
       const result = !data.error;
       if (result) {
         const channel = new Channel(data);
-        showElement('.results', 'block');
         emptyElement('.results');
         renderSearchResult(channel);
         if (alreadySubscribed(channel)) {
@@ -64,7 +63,6 @@
   function addUser(e) {
     if (e.target.className === 'btn--add') {
       e.stopPropagation();
-      alert('add');
       subscribe(searchResult);
       refresh();
       emptyElement('.results');
@@ -189,7 +187,7 @@
     channel.appendChild(name);
     channel.appendChild(addBtn);
     results.appendChild(channel);
-    results.style.visibility = 'visible';
+    showElement('.results', 'block');
   }
 
   // Renders individual channel component
