@@ -1,3 +1,5 @@
+import '../styles/styles.scss';
+
 (function App() {
   // localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');

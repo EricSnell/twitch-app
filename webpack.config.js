@@ -1,6 +1,9 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
+const postCssPresetEnv = require('postcss-preset-env');
 const devMode = process.env.NODE_ENV === 'development';
 
 const pug = {
@@ -33,6 +36,9 @@ module.exports = {
   module: {
     rules: [pug, scss]
   },
+  optimization: {
+    minimizer: [new OptimizeCSSAssetsPlugin()]
+  },
   plugins: [
     new HtmlWebpackPlugin({
       filename: 'index.html',
@@ -40,6 +46,10 @@ module.exports = {
     }),
     new MiniCssExtractPlugin({
       filename: devMode ? '[name].css' : '[name].[hash].css'
+    }),
+    new webpack.ProvidePlugin({
+      $: 'jquery',
+      jQuery: 'jquery'
     })
   ]
 };
