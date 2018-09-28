@@ -1,4 +1,5 @@
 import '../styles/styles.scss';
+import '../img/logo.png';
 
 (function App() {
   // localStorage.removeItem('subscriptions');

@@ -27,6 +27,13 @@ const scss = {
   ]
 };
 
+const files = {
+  test: /\.(jpg|png)$/,
+  use: {
+    loader: 'file-loader'
+  }
+};
+
 module.exports = {
   entry: './src/js/app.js',
   output: {
@@ -34,8 +41,9 @@ module.exports = {
     filename: '[name].[hash].js'
   },
   module: {
-    rules: [pug, scss]
+    rules: [pug, files, scss]
   },
+  devtool: devMode ? 'inline-source-map' : false,
   optimization: {
     minimizer: [new OptimizeCSSAssetsPlugin()]
   },
