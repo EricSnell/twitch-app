@@ -9,25 +9,25 @@ html(lang="en")
   body
     .wrapper
       .app
-        header(class="header")
-          img(src="../img/logo.png", alt="Twitch", class="logo")
-          nav(class="nav")
-            ul(class="nav__list")
-              li(class="nav__item nav__item--active") All
-              li(class="nav__item") Online
-              li(class="nav__item") Offline
+        header.header
+          img.logo(src="../img/logo.png", alt="Twitch")
+          nav.nav
+            ul.nav__list
+              li.nav__item.nav__item--active All
+              li.nav__item Online
+              li.nav__item Offline
           
           .search
-            input(type="text", class="search__input", placeholder="Search" autofocus)
+            input.search__input(type="text", placeholder="Search" autofocus)
             .search__icon
             .results
         
-        section(class="content")
+        section.content
           .helper
-            span(class="arrow") &#8679; 
+            span.arrow &#8679; 
             | Start adding streamers to follow! 
-            span(class="arrow") &#8679;
+            span.arrow &#8679;
 
-      footer(class="footer")
+      footer.footer
         | Designed by 
-        a(href="https://www.github.com/ericsnell",class="footer__link",target="__blank") Eric Snell
+        a.footer__link(href="https://www.github.com/ericsnell", target="__blank") Eric Snell

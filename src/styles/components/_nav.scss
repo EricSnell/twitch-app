@@ -1,0 +1,35 @@
+.nav {
+  flex: 0 0 100%;
+  align-self: stretch;
+  display: flex;
+  order: 1;
+
+  @media only screen and (max-width: 500px) {
+    flex: 1;
+  }
+
+  &__list {
+    width: 100%;
+    display: flex;
+  }
+
+  &__item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    font-size: 1.3rem;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    height: 5rem;
+  }
+
+  &__item:hover {
+    background: var(--color-primary-3);
+  }
+
+  &__item--active {
+    background: var(--color-primary-4);
+  }
+}

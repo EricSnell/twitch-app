@@ -1,0 +1,27 @@
+.helper {
+  background: var(--color-dark-2);
+  color: var(--color-primary-3);
+  font-weight: 100;
+  font-size: 1.8rem;
+  padding: 3rem 0;
+  letter-spacing: 1.3px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  @media only screen and (max-width: 500px) {
+    font-size: 1.4rem;
+  }
+
+  .arrow {
+    font-size: 3.5rem;
+    margin: 0 2.5rem;
+    transform: translateY(0);
+    opacity: 1;
+    animation: shake 1.8s infinite;
+
+    @media only screen and (max-width: 500px) {
+      font-size: 3rem;
+    }
+  }
+}
