@@ -1,6 +1,6 @@
 import '../styles/styles.scss';
 import img from '../img/logo.png';
-console.log('IMMAAAGGEEE', img);
+
 (function App() {
   // localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
@@ -240,7 +240,8 @@ console.log('IMMAAAGGEEE', img);
   }
 
   function hideElement(elm) {
-    document.querySelector(elm).style.display = 'none';
+    if (document.querySelector(elm))
+      document.querySelector(elm).style.display = 'none';
   }
 
   function showElement(elm, val) {
