@@ -2,7 +2,7 @@ import '../styles/styles.scss';
 import img from '../img/logo.png';
 
 (function App() {
-  // localStorage.removeItem('subscriptions');
+  localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
   const [nav] = Array.from(document.getElementsByClassName('nav'));
