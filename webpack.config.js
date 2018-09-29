@@ -8,7 +8,7 @@ const devMode = process.env.NODE_ENV === 'development';
 
 const pug = {
   test: /\.pug$/,
-  use: ['html-loader?attrs=false', 'pug-html-loader']
+  use: ['html-loader', 'pug-html-loader']
 };
 
 const scss = {
@@ -29,9 +29,7 @@ const scss = {
 
 const files = {
   test: /\.(jpg|png)$/,
-  use: {
-    loader: 'file-loader'
-  }
+  use: ['file-loader']
 };
 
 module.exports = {

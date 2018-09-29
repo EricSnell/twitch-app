@@ -1,6 +1,6 @@
 import '../styles/styles.scss';
-import '../img/logo.png';
-
+import img from '../img/logo.png';
+console.log('IMMAAAGGEEE', img);
 (function App() {
   // localStorage.removeItem('subscriptions');
   let storage = localStorage.getItem('subscriptions');
