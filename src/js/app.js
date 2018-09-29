@@ -1,4 +1,4 @@
-import '../styles/styles.scss';
+import '../styles/main.scss';
 import img from '../img/logo.png';
 
 (function App() {

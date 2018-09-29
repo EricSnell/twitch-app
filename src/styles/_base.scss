@@ -1,0 +1,109 @@
+/*
+** Base file will hold resets, variables, mixins, and some utility classes
+*/
+
+// VARIABLES
+:root {
+  --color-primary-1: #322951;
+  --color-primary-2: #8f74c5;
+  --color-primary-3: #d3cae8;
+  --color-primary-4: #bca9e8;
+  --color-primary-5: #7d5bbe;
+
+  --color-green: #14af5b;
+  --color-green-darken: #11984f;
+
+  --color-dark-1: #1e1a26;
+  --color-dark-2: #2c2541;
+
+  --color-light-grey: #dad8de;
+  --color-dark-grey: #898395;
+  --color-white: #ffffff;
+}
+
+// BASIC RESET
+* {
+  margin: 0;
+  padding: 0;
+}
+
+*,
+*:before,
+*:after {
+  box-sizing: inherit;
+  list-style: none;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%; // 10/16 = 62.5%
+}
+
+// HELPER
+.hidden {
+  display: none;
+}
+
+// ANIMATIONS
+@keyframes pulsate {
+  0% {
+    opacity: 0.3;
+    box-shadow: none;
+  }
+
+  70% {
+    opacity: 1;
+    box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
+  }
+
+  100% {
+    opacity: 1;
+    box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
+  }
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 1;
+  }
+
+  50% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+    transform: translateY(-1rem);
+  }
+}
+
+@keyframes shake {
+  0% {
+    transform: translateY(0);
+  }
+
+  60% {
+    transform: translateY(0);
+  }
+
+  70% {
+    transform: translateY(-1rem);
+  }
+
+  80% {
+    transform: translateY(0);
+  }
+
+  90% {
+    transform: translateY(-1rem);
+  }
+
+  100% {
+    transform: translateY(0);
+  }
+}
