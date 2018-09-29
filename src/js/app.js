@@ -49,7 +49,7 @@ import img from '../img/logo.png';
       const result = !data.error;
       if (result) {
         const channel = new Channel(data);
-        emptyElement('.results');
+        emptyElement('.search__results');
         renderSearchResult(channel);
         if (alreadySubscribed(channel)) {
           disableButton();
@@ -57,8 +57,8 @@ import img from '../img/logo.png';
           searchResult = channel;
         }
       } else {
-        emptyElement('.results');
-        hideElement('.results');
+        emptyElement('.search__results');
+        hideElement('.search__results');
       }
     });
   }
@@ -68,7 +68,7 @@ import img from '../img/logo.png';
       e.stopPropagation();
       subscribe(searchResult);
       refresh();
-      emptyElement('.results');
+      emptyElement('.search__results');
       emptyInput();
     }
   }
@@ -123,8 +123,8 @@ import img from '../img/logo.png';
     const addBtn = document.querySelector('.btn--add');
     const secondaryTarget = e.relatedTarget;
     if (secondaryTarget !== addBtn) {
-      emptyElement('.results');
-      hideElement('.results');
+      emptyElement('.search__results');
+      hideElement('.search__results');
       emptyInput();
     }
   }
@@ -171,15 +171,18 @@ import img from '../img/logo.png';
   }
 
   function renderSearchResult(data) {
-    const [results] = Array.from(document.getElementsByClassName('results'));
+    const [results] = Array.from(
+      document.getElementsByClassName('search__results')
+    );
     const channel = document.createElement('div');
     const logo = document.createElement('img');
     const name = document.createElement('span');
     const addBtn = document.createElement('button');
+    const className = 'search__results';
     // Set class names
-    channel.className = 'results__item';
-    logo.className = 'results__img';
-    name.className = 'results__name';
+    channel.className = `${className}__item`;
+    logo.className = `${className}__img`;
+    name.className = `${className}__name`;
     addBtn.className = 'btn--add';
     // Set text and attributes
     name.innerText = data.name;
@@ -190,7 +193,7 @@ import img from '../img/logo.png';
     channel.appendChild(name);
     channel.appendChild(addBtn);
     results.appendChild(channel);
-    showElement('.results', 'block');
+    showElement('.search__results', 'block');
   }
 
   // Renders individual channel component
