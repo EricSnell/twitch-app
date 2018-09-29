@@ -178,11 +178,11 @@ import img from '../img/logo.png';
     const logo = document.createElement('img');
     const name = document.createElement('span');
     const addBtn = document.createElement('button');
-    const className = 'search__results';
+    const blockName = 'search__results';
     // Set class names
-    channel.className = `${className}__item`;
-    logo.className = `${className}__img`;
-    name.className = `${className}__name`;
+    channel.className = `${blockName}__item`;
+    logo.className = `${blockName}__img`;
+    name.className = `${blockName}__name`;
     addBtn.className = 'btn--add';
     // Set text and attributes
     name.innerText = data.name;
