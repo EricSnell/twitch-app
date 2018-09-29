@@ -1,9 +1,11 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const OptimizeCSSAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const postCssPresetEnv = require('postcss-preset-env');
+const UglifyJsPlugin = require('uglifyjs-webpack-plugin');
 const devMode = process.env.NODE_ENV === 'development';
 
 const pug = {
@@ -27,6 +29,12 @@ const scss = {
   ]
 };
 
+const js = {
+  test: /\.js$/,
+  exclude: /node_modules/,
+  use: ['babel-loader']
+};
+
 const files = {
   test: /\.(jpg|png)$/,
   use: ['file-loader']
@@ -39,11 +47,11 @@ module.exports = {
     filename: '[name].[hash].js'
   },
   module: {
-    rules: [pug, files, scss]
+    rules: [pug, files, scss, js]
   },
   devtool: devMode ? 'inline-source-map' : false,
   optimization: {
-    minimizer: [new OptimizeCSSAssetsPlugin()]
+    minimizer: [new UglifyJsPlugin(), new OptimizeCSSAssetsPlugin()]
   },
   plugins: [
     new HtmlWebpackPlugin({
@@ -56,6 +64,7 @@ module.exports = {
     new webpack.ProvidePlugin({
       $: 'jquery',
       jQuery: 'jquery'
-    })
+    }),
+    new CleanWebpackPlugin(['dist'])
   ]
 };
