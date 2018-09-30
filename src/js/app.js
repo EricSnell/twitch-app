@@ -62,8 +62,11 @@ import '../img/logo.png';
   }
 
   function addUser(e) {
+    alert(e.target.className);
     if (e.target.className === 'btn--add') {
+      alert('in add');
       e.stopPropagation();
+      alert('after stop prop');
       subscribe(searchResult);
       refresh();
       emptyElement('.search__results');
