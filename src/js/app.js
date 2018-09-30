@@ -18,7 +18,7 @@ import '../img/logo.png';
     refresh();
     setRefreshTimer();
     searchInput.addEventListener('keyup', runSearch);
-    searchInput.addEventListener('blur', closeResults);
+    //searchInput.addEventListener('blur', closeResults);
     search.addEventListener('submit', addUser);
     nav.addEventListener('click', filterChannels);
   }
