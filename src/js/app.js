@@ -62,7 +62,7 @@ import '../img/logo.png';
   }
 
   function addUser(e) {
-    alert(e.target.className);
+    alert('add');
     if (e.target.className === 'btn--add') {
       alert('in add');
       e.stopPropagation();
