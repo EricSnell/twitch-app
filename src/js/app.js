@@ -18,7 +18,7 @@ import '../img/logo.png';
     refresh();
     setRefreshTimer();
     searchInput.addEventListener('keyup', runSearch);
-    //searchInput.addEventListener('blur', closeResults);
+    document.addEventListener('click', closeResults);
     search.addEventListener('submit', addUser);
     nav.addEventListener('click', filterChannels);
   }
@@ -117,10 +117,7 @@ import '../img/logo.png';
   }
 
   function closeResults(e) {
-    const addBtn = document.querySelector('.btn--add');
-    const secondaryTarget = e.relatedTarget;
-    if (secondaryTarget !== addBtn) {
-      emptyElement('.search__results');
+    if (!e.target.className.includes('search')) {
       hideElement('.search__results');
       emptyInput();
     }
