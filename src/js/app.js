@@ -202,6 +202,7 @@ import '../img/logo.png';
     userName.innerText = obj.name;
     status.innerText = obj.stream ? obj.stream : 'Offline';
     channel.href = obj.url;
+    channel.target = '_blank';
     details.innerText = obj.details;
     // Set class names
     channel.className = obj.stream ? 'channel channel--online' : 'channel';
