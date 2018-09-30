@@ -19,7 +19,7 @@ import '../img/logo.png';
     setRefreshTimer();
     searchInput.addEventListener('keyup', runSearch);
     searchInput.addEventListener('blur', closeResults);
-    search.addEventListener('click', addUser);
+    search.addEventListener('submit', addUser);
     nav.addEventListener('click', filterChannels);
   }
 
@@ -43,7 +43,6 @@ import '../img/logo.png';
   function fetchUser(e) {
     const input = e.target.value;
     const url = `https://wind-bow.gomix.me/twitch-api/channels/${input}?callback=?`;
-    alert('add');
     $.getJSON(url, data => {
       const result = !data.error;
       if (result) {
@@ -63,15 +62,11 @@ import '../img/logo.png';
   }
 
   function addUser(e) {
-    if (e.target.className === 'btn--add') {
-      alert('in add');
-      e.stopPropagation();
-      alert('after stop prop');
-      subscribe(searchResult);
-      refresh();
-      emptyElement('.search__results');
-      emptyInput();
-    }
+    e.preventDefault();
+    subscribe(searchResult);
+    refresh();
+    emptyElement('.search__results');
+    emptyInput();
   }
 
   function alreadySubscribed(channel) {
@@ -183,6 +178,7 @@ import '../img/logo.png';
     logo.className = `${blockName}__img`;
     name.className = `${blockName}__name`;
     addBtn.className = 'btn--add';
+    addBtn.type = 'submit';
     // Set text and attributes
     name.innerText = data.name;
     logo.src = data.logo;
@@ -201,8 +197,8 @@ import '../img/logo.png';
     const channel = document.createElement('a');
     const user = document.createElement('div');
     const userImg = document.createElement('img');
-    const userName = document.createElement('a');
-    const status = document.createElement('a');
+    const userName = document.createElement('span');
+    const status = document.createElement('div');
     const details = document.createElement('div');
     // Set text and attributes
     userName.innerText = obj.name;
