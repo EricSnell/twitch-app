@@ -67,6 +67,7 @@ import '../img/logo.png';
     refresh();
     emptyElement('.search__results');
     emptyInput();
+    searchInput.blur();
   }
 
   function alreadySubscribed(channel) {
