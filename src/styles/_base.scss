@@ -56,11 +56,7 @@ html {
     box-shadow: none;
   }
 
-  70% {
-    opacity: 1;
-    box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
-  }
-
+  70%,
   100% {
     opacity: 1;
     box-shadow: 0 0 1rem rgba(0, 255, 0, 0.9);
@@ -68,10 +64,7 @@ html {
 }
 
 @keyframes fadeUp {
-  0% {
-    opacity: 1;
-  }
-
+  0%,
   50% {
     opacity: 1;
   }
@@ -82,11 +75,8 @@ html {
   }
 }
 
-@keyframes shake {
-  0% {
-    transform: translateY(0);
-  }
-
+@keyframes bounce {
+  0%,
   60% {
     transform: translateY(0);
   }

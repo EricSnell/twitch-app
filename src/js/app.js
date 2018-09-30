@@ -1,15 +1,13 @@
 import '../styles/main.scss';
-import img from '../img/logo.png';
+import '../img/logo.png';
 
 (function App() {
-  localStorage.removeItem('subscriptions');
-  let storage = localStorage.getItem('subscriptions');
+  const devMode = process.env.NODE_ENV === 'development';
+  let storage = devMode ? null : localStorage.getItem('subscriptions');
   const subscriptions = JSON.parse(storage) || [];
-  const [nav] = Array.from(document.getElementsByClassName('nav'));
-  const [searchInput] = Array.from(
-    document.getElementsByClassName('search__input')
-  );
-  const [search] = Array.from(document.getElementsByClassName('search'));
+  const nav = document.querySelector('.nav');
+  const searchInput = document.querySelector('.search__input');
+  const search = document.querySelector('.search');
   let resultsTimer = null;
   let refreshTimer = null;
   let searchResult;
@@ -131,8 +129,8 @@ import img from '../img/logo.png';
 
   function filterChannels(e) {
     const filter = e.target.innerText;
-    const channels = Array.from(document.getElementsByClassName('channel'));
-    const navItems = Array.from(nav.getElementsByClassName('nav__item'));
+    const channels = Array.from(document.querySelectorAll('.channel'));
+    const navItems = Array.from(nav.querySelectorAll('.nav__item'));
 
     navItems.forEach(item => {
       item.classList.remove('nav__item--active');
@@ -171,9 +169,7 @@ import img from '../img/logo.png';
   }
 
   function renderSearchResult(data) {
-    const [results] = Array.from(
-      document.getElementsByClassName('search__results')
-    );
+    const results = document.querySelector('.search__results');
     const channel = document.createElement('div');
     const logo = document.createElement('img');
     const name = document.createElement('span');
@@ -198,7 +194,7 @@ import img from '../img/logo.png';
 
   // Renders individual channel component
   function renderChannel(obj) {
-    const [container] = document.getElementsByClassName('content');
+    const container = document.querySelector('.content');
     const channel = document.createElement('a');
     const user = document.createElement('div');
     const userImg = document.createElement('img');
@@ -229,7 +225,7 @@ import img from '../img/logo.png';
 
   // Styling Functions
   function disableButton() {
-    const [btn] = document.getElementsByClassName('btn--add');
+    const btn = document.querySelector('.btn--add');
     btn.disabled = true;
     btn.innerText = 'Following';
   }
