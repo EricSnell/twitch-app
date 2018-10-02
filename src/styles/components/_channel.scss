@@ -14,6 +14,19 @@
   backface-visibility: hidden; // fix animation glitch
   padding: 2rem 1rem;
 
+  &::after {
+    position: absolute;
+    content: '\00d7';
+    color: white;
+    display: block;
+    right: 0;
+    top: 0;
+    height: 2rem;
+    width: 2rem;
+    margin: 1rem;
+    transition: 0.2s all;
+  }
+
   @media only screen and (max-width: 500px) {
     flex-direction: column;
     padding: 2.5rem;
